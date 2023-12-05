@@ -1,4 +1,4 @@
-# `@napi-rs/mystiko-node`
+# `@mystikonetwork/mystiko-node`
 
 ![https://github.com/mystikonetwork/mystiko-node/actions](https://github.com/mystikonetwork/mystiko-node/workflows/CI/badge.svg)
 
