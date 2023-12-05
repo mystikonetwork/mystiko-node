@@ -1,0 +1,33 @@
+[package]
+edition = "2021"
+name    = "mystiko-node"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
+napi        = { version = "2.12.2", default-features = false, features = ["napi4"] }
+napi-derive = "2.12.2"
+
+anyhow = { version = "1.0.69" }
+mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", features = [
+  "proto",
+  "fs",
+] }
+mystiko_lib = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a" }
+mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", default-features = false, features = [
+  "mystiko-api-config-v1",
+  "mystiko-api-handler-v1",
+] }
+prost = { version = "0.11.9" }
+typed-builder = { version = "0.15.2" }
+
+[build-dependencies]
+napi-build = "2.0.1"
+
+[profile.release]
+lto = true
