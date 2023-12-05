@@ -1,3 +1,3 @@
-# `@mystikonetwork/mystiko-node-linux-arm64-musl`
+# `@mystikonetwork/node-linux-arm64-musl`
 
-This is the **aarch64-unknown-linux-musl** binary for `@mystikonetwork/mystiko-node`
+This is the **aarch64-unknown-linux-musl** binary for `@mystikonetwork/node`

@@ -1,5 +1,5 @@
 {
-  "name": "@mystikonetwork/mystiko-node-darwin-arm64",
+  "name": "@mystikonetwork/node-darwin-arm64",
   "version": "1.0.0",
   "os": [
     "darwin"

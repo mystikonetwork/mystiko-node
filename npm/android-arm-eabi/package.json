@@ -1,5 +1,5 @@
 {
-  "name": "@mystikonetwork/mystiko-node-android-arm-eabi",
+  "name": "@mystikonetwork/node-android-arm-eabi",
   "version": "1.0.0",
   "os": [
     "android"

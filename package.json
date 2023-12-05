@@ -1,6 +1,6 @@
 {
-  "name": "mystiko-node",
-  "version": "1.0.0",
+  "name": "@mystikonetwork/node",
+  "version": "0.1.0",
   "description": "mystiko node package with napi-rs",
   "main": "index.js",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "mystiko-node",
+    "name": "@mystikonetwork/node",
     "triples": {
       "defaults": true,
       "additional": [

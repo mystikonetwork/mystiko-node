@@ -1,4 +1,4 @@
-# `@mystikonetwork/mystiko-node`
+# `@mystikonetwork/node`
 
 ![https://github.com/mystikonetwork/mystiko-node/actions](https://github.com/mystikonetwork/mystiko-node/workflows/CI/badge.svg)
 
@@ -14,7 +14,7 @@
 ## Install this package
 
 ```
-yarn add @mystikonetwork/mystiko-node
+yarn add @mystikonetwork/node
 ```
 
 ## Support matrix
@@ -61,7 +61,7 @@ The other problem is how to deliver prebuild `binary` to users. Downloading it i
 
 In this package, we choose a better way to solve this problem. We release different `npm packages` for different platforms. And add it to `optionalDependencies` before releasing the `Major` package to npm.
 
-`NPM` will choose which native package should download from `registry` automatically. You can see [npm](./npm) dir for details. And you can also run `yarn add @mystikonetwork/mystiko-node` to see how it works.
+`NPM` will choose which native package should download from `registry` automatically. You can see [npm](./npm) dir for details. And you can also run `yarn add @mystikonetwork/node` to see how it works.
 
 ## Develop requirements
 

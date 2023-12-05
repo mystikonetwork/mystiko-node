@@ -1,3 +1,3 @@
-# `@mystikonetwork/mystiko-node-android-arm64`
+# `@mystikonetwork/node-android-arm64`
 
-This is the **aarch64-linux-android** binary for `@mystikonetwork/mystiko-node`
+This is the **aarch64-linux-android** binary for `@mystikonetwork/node`

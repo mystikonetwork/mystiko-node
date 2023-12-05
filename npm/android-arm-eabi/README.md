@@ -1,3 +1,3 @@
-# `@mystikonetwork/mystiko-node-android-arm-eabi`
+# `@mystikonetwork/node-android-arm-eabi`
 
-This is the **armv7-linux-androideabi** binary for `@mystikonetwork/mystiko-node`
+This is the **armv7-linux-androideabi** binary for `@mystikonetwork/node`

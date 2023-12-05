@@ -1,3 +1,3 @@
-# `@mystikonetwork/mystiko-node-darwin-arm64`
+# `@mystikonetwork/node-darwin-arm64`
 
-This is the **aarch64-apple-darwin** binary for `@mystikonetwork/mystiko-node`
+This is the **aarch64-apple-darwin** binary for `@mystikonetwork/node`

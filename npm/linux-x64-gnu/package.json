@@ -1,5 +1,5 @@
 {
-  "name": "@mystikonetwork/mystiko-node-linux-x64-gnu",
+  "name": "@mystikonetwork/node-linux-x64-gnu",
   "version": "1.0.0",
   "os": [
     "linux"

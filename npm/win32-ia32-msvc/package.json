@@ -1,5 +1,5 @@
 {
-  "name": "@mystikonetwork/mystiko-node-win32-ia32-msvc",
+  "name": "@mystikonetwork/node-win32-ia32-msvc",
   "version": "1.0.0",
   "os": [
     "win32"

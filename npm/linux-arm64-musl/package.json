@@ -1,5 +1,5 @@
 {
-  "name": "@mystikonetwork/mystiko-node-linux-arm64-musl",
+  "name": "@mystikonetwork/node-linux-arm64-musl",
   "version": "1.0.0",
   "os": [
     "linux"
