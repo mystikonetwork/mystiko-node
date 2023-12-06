@@ -1,0 +1,35 @@
+{
+  "name": "@mystikonetwork/napi-linux-arm64-gnu",
+  "version": "1.0.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "libc": [
+    "glibc"
+  ],
+  "main": "mystiko-napi.linux-arm64-gnu.node",
+  "files": [
+    "mystiko-napi.linux-arm64-gnu.node"
+  ],
+  "description": "Mystiko node project for writing node package with napi-rs",
+  "keywords": [
+    "napi-rs",
+    "NAPI",
+    "N-API",
+    "Rust",
+    "node-addon",
+    "node-addon-api"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "repository": "git@github.com:mystikonetwork/mystiko-napi.git"
+}
