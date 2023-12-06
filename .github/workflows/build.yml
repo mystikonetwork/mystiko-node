@@ -32,7 +32,7 @@ jobs:
             target: x86_64-apple-darwin
             build: |
               yarn build
-              strip -x ${{ env.APP_NAME }}.*.node
+              strip -x $APP_NAME.*.node
 #          - host: windows-latest
 #            build: yarn build
 #            target: x86_64-pc-windows-msvc
