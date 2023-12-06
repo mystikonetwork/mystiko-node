@@ -1,4 +1,4 @@
-name: CI
+name: Build
 env:
   DEBUG: napi:*
   APP_NAME: mystiko-napi
@@ -103,7 +103,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Configure npm for GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
