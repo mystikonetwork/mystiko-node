@@ -234,9 +234,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { Config, Account, Wallet, Mystiko } = nativeBinding
+const { Test } = nativeBinding
 
-module.exports.Config = Config
-module.exports.Account = Account
-module.exports.Wallet = Wallet
-module.exports.Mystiko = Mystiko
+module.exports.Test = Test

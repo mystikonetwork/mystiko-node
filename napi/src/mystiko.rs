@@ -3,7 +3,6 @@ use napi_derive::napi;
 use prost::Message;
 
 #[napi(constructor)]
-
 pub struct Mystiko;
 
 #[napi]
