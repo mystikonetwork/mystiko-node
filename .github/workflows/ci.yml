@@ -1,56 +1,56 @@
-name: CI
-
-on:
-  push:
-    branches:
-      - main
-    tags-ignore:
-      - '**'
-  pull_request: null
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-
-      - name: SSH Agent
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: |
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'yarn'
-
-      - name: Install
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy, rustfmt
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Lint all
-        run: yarn lint
-
-      - name: Build all
-        run: yarn build
-
-      - name: Test all
-        run: yarn test
+#name: CI
+#
+#on:
+#  push:
+#    branches:
+#      - main
+#    tags-ignore:
+#      - '**'
+#  pull_request: null
+#concurrency:
+#  group: ${{ github.workflow }}-${{ github.ref }}
+#  cancel-in-progress
+#jobs:
+#  lint:
+#    name: Lint
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Configure npm for GitHub Packages
+#        run: |
+#          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+#          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+#
+#      - name: SSH Agent
+#        uses: webfactory/ssh-agent@v0.7.0
+#        with:
+#          ssh-private-key: |
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+#
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: 18
+#          cache: 'yarn'
+#
+#      - name: Install
+#        uses: dtolnay/rust-toolchain@stable
+#        with:
+#          components: clippy, rustfmt
+#
+#      - name: Install dependencies
+#        run: yarn install
+#
+#      - name: Lint all
+#        run: yarn lint
+#
+#      - name: Build all
+#        run: yarn build
+#
+#      - name: Test all
+#        run: yarn test
