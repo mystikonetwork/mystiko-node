@@ -1,4 +1,4 @@
-name: Ci
+name: CI
 
 on:
   push:
@@ -48,6 +48,9 @@ jobs:
 
       - name: Lint all
         run: yarn lint
+
+      - name: Build all
+        run: yarn build
 
       - name: Test all
         run: yarn test
