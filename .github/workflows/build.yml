@@ -49,8 +49,6 @@ jobs:
               apt-get update &&
               apt-get install -y ssh &&
               yarn build --target x86_64-unknown-linux-gnu &&
-              pwd
-              ls -la
               strip -x $APP_NAME.*.node
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
@@ -59,8 +57,6 @@ jobs:
               set -e
               apk add --no-cache openssh-client
               yarn build
-              pwd
-              ls -la
               strip $APP_NAME.*.node
           - host: macos-latest
             target: aarch64-apple-darwin
@@ -79,8 +75,6 @@ jobs:
               set -e
               apt-get update && apt-get install -y ssh
               yarn build --target aarch64-unknown-linux-gnu
-              pwd
-              ls -la
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
@@ -106,11 +100,11 @@ jobs:
             build: |-
               set -e
               apk add --no-cache openssh-client
-              apk add zig
+              curl -L -o zig.tar.xz "https://ziglang.org/download/0.7.1/zig-linux-x86_64-0.7.1.tar.xz"
+              tar -xf zig.tar.xz
+              mv zig-linux-x86_64-0.7.1/zig /usr/local/bin/
               rustup target add aarch64-unknown-linux-musl
               yarn build --target aarch64-unknown-linux-musl
-              pwd
-              ls -la
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip $APP_NAME.*.node
           - host: windows-latest
             target: aarch64-pc-windows-msvc
@@ -186,6 +180,7 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: >
             --user 0:0
+            -e APP_NAME=${{ env.APP_NAME }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
             -v /var/run:/var/run
