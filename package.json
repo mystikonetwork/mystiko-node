@@ -4,6 +4,7 @@
     "napi"
   ],
   "scripts": {
+    "artifacts": "yarn workspaces run artifacts",
     "build": "yarn workspaces run build",
     "format": "yarn workspaces run format",
     "lint": "yarn workspaces run lint",
