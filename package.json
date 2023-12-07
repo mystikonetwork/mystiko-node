@@ -1,10 +1,13 @@
 {
   "private": true,
-  "workspaces": ["napi"],
+  "workspaces": [
+    "napi"
+  ],
   "scripts": {
     "build": "yarn workspaces run build",
     "format": "yarn workspaces run format",
     "lint": "yarn workspaces run lint",
     "test": "yarn workspaces run test"
-  }
+  },
+  "version": "0.0.0"
 }
