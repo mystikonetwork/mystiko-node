@@ -195,7 +195,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
+          path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -432,15 +432,18 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
+        working-directory: $WORK_PATH
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: artifacts
+          path: ${{ env.WORK_PATH }}/artifacts
       - name: Move artifacts
         run: yarn artifacts
+        working-directory: $WORK_PATH
       - name: List packages
         run: ls -R ./npm
         shell: bash
+        working-directory: $WORK_PATH
       - name: Publish
         run: |
           npm config set provenance true
@@ -453,6 +456,7 @@ jobs:
           else
             echo "Not a release, skipping publish"
           fi
+        working-directory: $WORK_PATH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
