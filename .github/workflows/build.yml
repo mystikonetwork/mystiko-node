@@ -2,7 +2,7 @@ name: Build
 env:
   DEBUG: napi:*
   APP_NAME: "mystiko-napi"
-  WORK_PATH: "./napi"
+  WORK_PATH: "napi"
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_UNSTABLE_TARGET_APPLIES_TO_HOST: true
   CARGO_TARGET_APPLIES_TO_HOST: false
@@ -276,8 +276,7 @@ jobs:
         shell: bash
         working-directory: $WORK_PATH
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim yarn test
-        working-directory: $WORK_PATH
+        run: docker run --rm -v $(pwd)/${{ env.WORK_PATH }}:/build -w /build node:${{ matrix.node }}-slim yarn test
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -316,8 +315,7 @@ jobs:
         shell: bash
         working-directory: $WORK_PATH
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-alpine yarn test
-        working-directory: $WORK_PATH
+        run: docker run --rm -v $(pwd)/${{ env.WORK_PATH }}:/build -w /build node:${{ matrix.node }}-alpine yarn test
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
     needs:
@@ -361,12 +359,11 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-slim
-          options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
+          options: '--platform linux/arm64 -v ${{ github.workspace }}/${{ env.WORK_PATH }}:/build -w /build'
           run: |
             set -e
             yarn test
             ls -la
-        working-directory: $WORK_PATH
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
     needs:
@@ -408,12 +405,11 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-bullseye-slim
-          options: '--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build'
+          options: '--platform linux/arm/v7 -v ${{ github.workspace }}/${{ env.WORK_PATH }}:/build -w /build'
           run: |
             set -e
             yarn test
             ls -la
-        working-directory: $WORK_PATH
   publish:
     name: Publish
     runs-on: ubuntu-latest
