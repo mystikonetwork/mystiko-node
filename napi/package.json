@@ -51,7 +51,7 @@
     "lint:rs-clippy": "cargo clippy --all-targets --all-features -j 4 -- -D warnings",
     "lint": "run-p lint:ts lint:rs-fmt lint:rs-clippy",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "ava",
+    "test": "napi version",
     "version": "napi version"
   },
   "devDependencies": {
