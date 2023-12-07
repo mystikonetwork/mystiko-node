@@ -2,6 +2,7 @@ name: Build
 env:
   DEBUG: napi:*
   APP_NAME: "mystiko-napi"
+  WORK_PATH: "./napi"
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_UNSTABLE_TARGET_APPLIES_TO_HOST: true
   CARGO_TARGET_APPLIES_TO_HOST: false
@@ -48,7 +49,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |
               set -e &&
-              cd ./napi &&
+              cd $WORK_PATH &&
               apt-get update &&
               apt-get install -y ssh &&
               yarn build --target x86_64-unknown-linux-gnu &&
@@ -58,7 +59,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |
               set -e
-              cd ./napi
+              cd $WORK_PATH
               apk add --no-cache openssh-client
               yarn build
               strip $APP_NAME.*.node
@@ -77,7 +78,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: |-
               set -e
-              cd ./napi
+              cd $WORK_PATH
               apt-get update && apt-get install -y ssh
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
@@ -159,7 +160,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: yarn install
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Setup node x86
         uses: actions/setup-node@v4
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -189,14 +190,13 @@ jobs:
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
         shell: bash
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.APP_NAME }}.*.node
+          path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
-        working-directory: ./napi
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
@@ -227,20 +227,19 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: .
-        working-directory: ./napi
+          ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Test bindings
         run: yarn test
-        working-directory: ./napi
+        working-directory: $WORK_PATH
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -266,20 +265,19 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: .
-        working-directory: ./napi
+          ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Test bindings
         run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim yarn test
-        working-directory: ./napi
+        working-directory: $WORK_PATH
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -307,20 +305,19 @@ jobs:
         run: |
           yarn config set supportedArchitectures.libc "musl"
           yarn install
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: .
-        working-directory: ./napi
+          ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Test bindings
         run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-alpine yarn test
-        working-directory: ./napi
+        working-directory: $WORK_PATH
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
     needs:
@@ -343,24 +340,23 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-gnu
-          path: .
-        working-directory: ./napi
+          ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "glibc"
           yarn install
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
       - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
@@ -370,7 +366,7 @@ jobs:
             set -e
             yarn test
             ls -la
-        working-directory: ./napi
+        working-directory: $WORK_PATH
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
     needs:
@@ -393,17 +389,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
-        working-directory: ./napi
+          ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm"
           yarn install
-        working-directory: ./napi
+        working-directory: $WORK_PATH
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -418,7 +413,7 @@ jobs:
             set -e
             yarn test
             ls -la
-        working-directory: ./napi
+        working-directory: $WORK_PATH
   publish:
     name: Publish
     runs-on: ubuntu-latest
