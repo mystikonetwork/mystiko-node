@@ -195,7 +195,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
+          path: path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -232,7 +232,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          ${{ env.WORK_PATH }}
+          path: ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -270,7 +270,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          ${{ env.WORK_PATH }}
+          path: ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -310,7 +310,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
-          ${{ env.WORK_PATH }}
+          path: ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -340,7 +340,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-gnu
-          ${{ env.WORK_PATH }}
+          path: ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
@@ -389,7 +389,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
-          ${{ env.WORK_PATH }}
+          path: ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R .
         shell: bash
