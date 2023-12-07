@@ -1,21 +1,6 @@
 {
   "name": "@mystikonetwork/napi",
   "version": "0.1.0",
-  "os": ["android", "darwin", "linux", "win32"],
-  "cpu": ["arm-eabi", "arm64", "arm", "x64", "ia32"],
-  "optionalDependencies": {
-    "@mystikonetwork/napi-android-arm-eabi": "^0.1.0",
-    "@mystikonetwork/napi-android-arm64": "^0.1.0",
-    "@mystikonetwork/napi-darwin-arm64": "^0.1.0",
-    "@mystikonetwork/napi-darwin-x64": "^0.1.0",
-    "@mystikonetwork/napi-linux-arm-gnueabihf": "^0.1.0",
-    "@mystikonetwork/napi-linux-arm64-gnu": "^0.1.0",
-    "@mystikonetwork/napi-linux-x64-gnu": "^0.1.0",
-    "@mystikonetwork/napi-linux-x64-musl": "^0.1.0",
-    "@mystikonetwork/napi-win32-arm64-msvc": "^0.1.0",
-    "@mystikonetwork/napi-win32-ia32-msvc": "^0.1.0",
-    "@mystikonetwork/napi-win32-x64-msvc": "^0.1.0"
-  },
   "description": "mystiko napi package with napi-rs",
   "main": "index.js",
   "license": "MIT",
