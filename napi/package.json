@@ -17,7 +17,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "@mystikonetwork/napi",
+    "name": "mystiko-napi",
     "triples": {
       "defaults": true,
       "additional": [
