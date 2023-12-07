@@ -160,7 +160,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Setup node x86
         uses: actions/setup-node@v4
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -190,7 +190,7 @@ jobs:
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -227,7 +227,7 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -236,10 +236,10 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Test bindings
         run: yarn test
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -265,7 +265,7 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -274,7 +274,7 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Test bindings
         run: docker run --rm -v $(pwd)/${{ env.WORK_PATH }}:/build -w /build node:${{ matrix.node }}-slim yarn test
   test-linux-x64-musl-binding:
@@ -304,7 +304,7 @@ jobs:
         run: |
           yarn config set supportedArchitectures.libc "musl"
           yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -313,7 +313,7 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Test bindings
         run: docker run --rm -v $(pwd)/${{ env.WORK_PATH }}:/build -w /build node:${{ matrix.node }}-alpine yarn test
   test-linux-aarch64-gnu-binding:
@@ -342,19 +342,19 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "glibc"
           yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
       - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
@@ -390,12 +390,12 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm"
           yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -428,18 +428,18 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
           path: ${{ env.WORK_PATH }}/artifacts
       - name: Move artifacts
         run: yarn artifacts
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: List packages
         run: ls -R ./npm
         shell: bash
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
       - name: Publish
         run: |
           npm config set provenance true
@@ -452,7 +452,7 @@ jobs:
           else
             echo "Not a release, skipping publish"
           fi
-        working-directory: $WORK_PATH
+        working-directory: ${{ env.WORK_PATH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
