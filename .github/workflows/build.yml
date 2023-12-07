@@ -209,6 +209,11 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -239,6 +244,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -269,6 +279,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -301,6 +316,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -341,6 +361,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
