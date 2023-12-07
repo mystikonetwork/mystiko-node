@@ -176,6 +176,7 @@ jobs:
           options: >
             --user 0:0
             -e APP_NAME=${{ env.APP_NAME }}
+            -e WORK_PATH=${{ env.WORK_PATH }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
             -v /var/run:/var/run
