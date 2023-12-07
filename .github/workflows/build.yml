@@ -44,11 +44,10 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            build: |-
+            build: |
               set -e &&
               apt-get update &&
               apt-get install -y ssh &&
-              eval "$(ssh-agent -s)" &&
               yarn build --target x86_64-unknown-linux-gnu &&
               strip -x $APP_NAME.*.node
           - host: ubuntu-latest
@@ -57,10 +56,6 @@ jobs:
             build: |
               set -e
               apk add --no-cache openssh-client
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              ln -s $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-              export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
               yarn build
               strip $APP_NAME.*.node
           - host: macos-latest
@@ -79,10 +74,6 @@ jobs:
             build: |-
               set -e
               apt-get update && apt-get install -y ssh
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              ln -s $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-              export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
           - host: ubuntu-latest
@@ -109,10 +100,6 @@ jobs:
             build: |-
               set -e
               apk add --no-cache openssh-client
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              ln -s $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-              export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
               rustup target add aarch64-unknown-linux-musl
               yarn build --target aarch64-unknown-linux-musl
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip $APP_NAME.*.node
@@ -137,6 +124,9 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+      - name: Get SSH Agent Socket Path
+        id: ssh_info
+        run: echo "::set-output name=socket_path::$(echo $SSH_AUTH_SOCK)"
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
@@ -189,87 +179,83 @@ jobs:
             --user 0:0
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
-            -v $SSH_AUTH_SOCK:/ssh-agent
-            -e SSH_AUTH_SOCK=/ssh-agent
+            -v /var/run:/var/run
             -w /build
-          run: ${{ matrix.settings.build }}
+          run: |
+            mkdir -p ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            ln -s /var/run/ssh-agent.sock ~/.ssh/ssh_auth_sock
+            export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+            ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
         shell: bash
-      - name: List files in current directory
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Listing files:"
-          ls -l
-          echo "Listing specific files in the target directory:"
-          ls -l ${{ env.APP_NAME }}.* || echo "No .node files found in the target directory"
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
-  build-freebsd:
-    runs-on: macos-13
-    name: Build FreeBSD
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-      - name: SSH Agent
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: |
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
-      - name: Build
-        id: build
-        uses: cross-platform-actions/action@v0.21.1
-        env:
-          DEBUG: napi:*
-          RUSTUP_IO_THREADS: 1
-        with:
-          operating_system: freebsd
-          version: '13.2'
-          memory: 13G
-          cpu_count: 3
-          environment_variables: 'DEBUG RUSTUP_IO_THREADS'
-          shell: bash
-          run: |
-            sudo pkg install -y -f curl node libnghttp2 npm
-            sudo npm install -g yarn --ignore-scripts
-            curl https://sh.rustup.rs -sSf --output rustup.sh
-            sh rustup.sh -y --profile minimal --default-toolchain beta
-            source "$HOME/.cargo/env"
-            echo "~~~~ rustc --version ~~~~"
-            rustc --version
-            echo "~~~~ node -v ~~~~"
-            node -v
-            echo "~~~~ yarn --version ~~~~"
-            yarn --version
-            pwd
-            ls -lah
-            whoami
-            env
-            freebsd-version
-            yarn install
-            yarn build
-            rm -rf node_modules
-            rm -rf target
-            rm -rf .yarn/cache
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: bindings-freebsd
-          path: ${{ env.APP_NAME }}.*.node
-          if-no-files-found: error
+  #  build-freebsd:
+  #    runs-on: macos-13
+  #    name: Build FreeBSD
+  #    steps:
+  #      - uses: actions/checkout@v4
+  #      - name: Configure npm for GitHub Packages
+  #        run: |
+  #          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+  #          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+  #      - name: SSH Agent
+  #        uses: webfactory/ssh-agent@v0.7.0
+  #        with:
+  #          ssh-private-key: |
+  #            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
+  #            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
+  #            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
+  #            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
+  #            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+  #      - name: Build
+  #        id: build
+  #        uses: cross-platform-actions/action@v0.21.1
+  #        env:
+  #          DEBUG: napi:*
+  #          RUSTUP_IO_THREADS: 1
+  #        with:
+  #          operating_system: freebsd
+  #          version: '13.2'
+  #          memory: 13G
+  #          cpu_count: 3
+  #          environment_variables: 'DEBUG RUSTUP_IO_THREADS'
+  #          shell: bash
+  #          run: |
+  #            sudo pkg install -y -f curl node libnghttp2 npm
+  #            sudo npm install -g yarn --ignore-scripts
+  #            curl https://sh.rustup.rs -sSf --output rustup.sh
+  #            sh rustup.sh -y --profile minimal --default-toolchain beta
+  #            source "$HOME/.cargo/env"
+  #            echo "~~~~ rustc --version ~~~~"
+  #            rustc --version
+  #            echo "~~~~ node -v ~~~~"
+  #            node -v
+  #            echo "~~~~ yarn --version ~~~~"
+  #            yarn --version
+  #            pwd
+  #            ls -lah
+  #            whoami
+  #            env
+  #            freebsd-version
+  #            yarn install
+  #            yarn build
+  #            rm -rf node_modules
+  #            rm -rf target
+  #            rm -rf .yarn/cache
+  #      - name: Upload artifact
+  #        uses: actions/upload-artifact@v3
+  #        with:
+  #          name: bindings-freebsd
+  #          path: ${{ env.APP_NAME }}.*.node
+  #          if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
