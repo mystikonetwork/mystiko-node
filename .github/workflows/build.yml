@@ -52,16 +52,6 @@ jobs:
 #            build: |
 #              set -e &&
 #              cd $WORK_PATH &&
-#              apt-get update &&
-#              apt-get install -y ssh &&
-#               eval "$(ssh-agent -s)"
-#               ssh-keyscan github.com >> /root/.ssh/known_hosts
-#               ls -al /root/.ssh/
-#               for key in /root/.ssh/id_*; do
-#                 KEY_TYPE=$(ssh-keygen -l -f $key | cut -d' ' -f4)
-#                 echo "Key: $key, Type: $KEY_TYPE"
-#                 ssh-add $key
-#               done
 #              yarn build --target x86_64-unknown-linux-gnu &&
 #              strip -x $APP_NAME.*.node
           - host: ubuntu-latest
@@ -70,15 +60,6 @@ jobs:
             build: |
               set -e
               cd $WORK_PATH
-              apt-get update && apt-get install -y ssh openssh-client
-              eval "$(ssh-agent -s)"
-              ssh-keyscan github.com >> /root/.ssh/known_hosts
-              ls -al /root/.ssh/
-              for key in /root/.ssh/id_*; do
-                 KEY_TYPE=$(ssh-keygen -l -f $key | cut -d' ' -f4)
-                 echo "Key: $key, Type: $KEY_TYPE"
-                 ssh-add $key
-              done
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
     name: stable - ${{ matrix.settings.target }} - node@18
@@ -99,15 +80,6 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
-      - name: Copy SSH Key
-        run: |
-          mkdir -p /tmp/ssh_key
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}" > /tmp/ssh_key/id_backend
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}" > /tmp/ssh_key/id_circuits
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}" > /tmp/ssh_key/id_protocol
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}" > /tmp/ssh_key/id_protos
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}" > /tmp/ssh_key/id_rust
-          chmod 600 /tmp/ssh_key/id_*
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
@@ -152,6 +124,11 @@ jobs:
           node-version: 18
           cache: yarn
           architecture: x86
+      - name: Docker Collect Git and SSH config
+        if: ${{ matrix.settings.docker }}
+        run: |
+          mkdir -p ${{ github.workspace }}/root-config
+          cp -r ~/.gitconfig ~/.ssh ${{ github.workspace }}/root-config/
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -161,9 +138,12 @@ jobs:
             --user 0:0
             -e APP_NAME=${{ env.APP_NAME }}
             -e WORK_PATH=${{ env.WORK_PATH }}
+            -e SSH_AUTH_SOCK=${{ env.SSH_AUTH_SOCK }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
-            -v /tmp/ssh_key/:/root/.ssh/
+            -v ${{ github.workspace }}/root-config/.ssh:/root/.ssh
+            -v ${{ github.workspace }}/root-config/.gitconfig:/root/.gitconfig
+            -v ${{ env.SSH_AUTH_SOCK }}:${{ env.SSH_AUTH_SOCK }}
             -w /build
           run: |
             ${{ matrix.settings.build }}
