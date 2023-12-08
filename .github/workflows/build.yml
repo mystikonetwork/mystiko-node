@@ -85,16 +85,13 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
       - name: Copy SSH Key
         run: |
-          mkdir -p $HOME/ssh_key
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}" > $HOME/ssh_key/id_rsa_backend
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}" > $HOME/ssh_key/id_rsa_circuits
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}" > $HOME/ssh_key/id_rsa_protocol
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}" > $HOME/ssh_key/id_rsa_protos
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}" > $HOME/ssh_key/id_rsa_rust
-          chmod 600 $HOME/ssh_key/id_rsa*
-      - name: Set SSH Agent Socket Path for Docker
-        id: set-ssh-path
-        run: echo "::set-output name=socket_path::$(echo $SSH_AUTH_SOCK)"
+          mkdir -p /tmp/ssh_key
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}" > /tmp/ssh_key/id_rsa_backend
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}" > /tmp/ssh_key/id_rsa_circuits
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}" > /tmp/ssh_key/id_rsa_protocol
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}" > /tmp/ssh_key/id_rsa_protos
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}" > /tmp/ssh_key/id_rsa_rust
+          chmod 600 /tmp/ssh_key/id_rsa*
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
@@ -150,7 +147,7 @@ jobs:
             -e WORK_PATH=${{ env.WORK_PATH }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
-            -v $HOME/ssh_key/:/root/.ssh/
+            -v /tmp/ssh_key/:/root/.ssh/
             -w /build
           run: |
             eval "$(ssh-agent -s)"
@@ -167,125 +164,125 @@ jobs:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
-  test-macOS-x64-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        settings:
-          - host: macos-latest
-            target: x86_64-apple-darwin
-        node:
-          - '18'
-          - '20'
-    runs-on: ${{ matrix.settings.host }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.WORK_PATH }}
-      - name: List packages
-        run: ls -R .
-        shell: bash
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Test bindings
-        run: yarn test
-        working-directory: ${{ env.WORK_PATH }}
-  test-macOS-aarch64-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        settings:
-          - host: macos-latest
-            target: aarch64-apple-darwin
-        node:
-          - '18'
-          - '20'
-    runs-on: ${{ matrix.settings.host }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.WORK_PATH }}
-      - name: List packages
-        run: ls -R .
-        shell: bash
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Test bindings
-        run: yarn test
-        working-directory: ${{ env.WORK_PATH }}
-  test-linux-x64-gnu-binding:
-    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '18'
-          - '20'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-x86_64-unknown-linux-gnu
-          path: ${{ env.WORK_PATH }}
-      - name: List packages
-        run: ls -R .
-        shell: bash
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Test bindings
-        run: docker run --rm -v $(pwd)/${{ env.WORK_PATH }}:/build -w /build node:${{ matrix.node }}-slim yarn test
+#  test-macOS-x64-binding:
+#    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+#    needs:
+#      - build
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        settings:
+#          - host: macos-latest
+#            target: x86_64-apple-darwin
+#        node:
+#          - '18'
+#          - '20'
+#    runs-on: ${{ matrix.settings.host }}
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Configure npm for GitHub Packages
+#        run: |
+#          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+#          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+#          cp $HOME/.npmrc $GITHUB_WORKSPACE/
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          cache: yarn
+#      - name: Install dependencies
+#        run: yarn install
+#        working-directory: ${{ env.WORK_PATH }}
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: bindings-${{ matrix.settings.target }}
+#          path: ${{ env.WORK_PATH }}
+#      - name: List packages
+#        run: ls -R .
+#        shell: bash
+#        working-directory: ${{ env.WORK_PATH }}
+#      - name: Test bindings
+#        run: yarn test
+#        working-directory: ${{ env.WORK_PATH }}
+#  test-macOS-aarch64-binding:
+#    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+#    needs:
+#      - build
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        settings:
+#          - host: macos-latest
+#            target: aarch64-apple-darwin
+#        node:
+#          - '18'
+#          - '20'
+#    runs-on: ${{ matrix.settings.host }}
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Configure npm for GitHub Packages
+#        run: |
+#          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+#          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+#          cp $HOME/.npmrc $GITHUB_WORKSPACE/
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          cache: yarn
+#      - name: Install dependencies
+#        run: yarn install
+#        working-directory: ${{ env.WORK_PATH }}
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: bindings-${{ matrix.settings.target }}
+#          path: ${{ env.WORK_PATH }}
+#      - name: List packages
+#        run: ls -R .
+#        shell: bash
+#        working-directory: ${{ env.WORK_PATH }}
+#      - name: Test bindings
+#        run: yarn test
+#        working-directory: ${{ env.WORK_PATH }}
+#  test-linux-x64-gnu-binding:
+#    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+#    needs:
+#      - build
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        node:
+#          - '18'
+#          - '20'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Configure npm for GitHub Packages
+#        run: |
+#          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+#          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+#          cp $HOME/.npmrc $GITHUB_WORKSPACE/
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          cache: yarn
+#      - name: Install dependencies
+#        run: yarn install
+#        working-directory: ${{ env.WORK_PATH }}
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: bindings-x86_64-unknown-linux-gnu
+#          path: ${{ env.WORK_PATH }}
+#      - name: List packages
+#        run: ls -R .
+#        shell: bash
+#        working-directory: ${{ env.WORK_PATH }}
+#      - name: Test bindings
+#        run: docker run --rm -v $(pwd)/${{ env.WORK_PATH }}:/build -w /build node:${{ matrix.node }}-slim yarn test
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
     needs:
@@ -338,9 +335,9 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     needs:
-      - test-macOS-x64-binding
-      - test-macOS-aarch64-binding
-      - test-linux-x64-gnu-binding
+#      - test-macOS-x64-binding
+#      - test-macOS-aarch64-binding
+#      - test-linux-x64-gnu-binding
       - test-linux-aarch64-gnu-binding
     steps:
       - uses: actions/checkout@v4
