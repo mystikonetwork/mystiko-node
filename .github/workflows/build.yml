@@ -65,7 +65,8 @@ jobs:
               apt-get install -y ssh
               cd $WORK_PATH
               pwd
-              cp -r /root/.ssh /home/runner/.ssh/
+              mkdir -p /home/runner/.ssh/
+              cp -r /root/.ssh/* /home/runner/.ssh/
               ls -al /home/runner
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
