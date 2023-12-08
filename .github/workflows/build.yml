@@ -31,31 +31,31 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-latest
-            target: x86_64-apple-darwin
-            build: |
-              yarn build
-              strip -x $APP_NAME.*.node
-          - host: macos-latest
-            target: aarch64-apple-darwin
-            build: |
-              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
-              export CC=$(xcrun -f clang);
-              export CXX=$(xcrun -f clang++);
-              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
-              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              yarn build --target aarch64-apple-darwin
-              strip -x $APP_NAME.*.node
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            build: |
-              set -e &&
-              cd $WORK_PATH &&
-              apt-get update &&
-              apt-get install -y ssh &&
-              yarn build --target x86_64-unknown-linux-gnu &&
-              strip -x $APP_NAME.*.node
+#          - host: macos-latest
+#            target: x86_64-apple-darwin
+#            build: |
+#              yarn build
+#              strip -x $APP_NAME.*.node
+#          - host: macos-latest
+#            target: aarch64-apple-darwin
+#            build: |
+#              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
+#              export CC=$(xcrun -f clang);
+#              export CXX=$(xcrun -f clang++);
+#              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
+#              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
+#              yarn build --target aarch64-apple-darwin
+#              strip -x $APP_NAME.*.node
+#          - host: ubuntu-latest
+#            target: x86_64-unknown-linux-gnu
+#            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+#            build: |
+#              set -e &&
+#              cd $WORK_PATH &&
+#              apt-get update &&
+#              apt-get install -y ssh &&
+#              yarn build --target x86_64-unknown-linux-gnu &&
+#              strip -x $APP_NAME.*.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -83,6 +83,15 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+      - name: Copy SSH Key
+        run: |
+          mkdir -p $HOME/ssh_key
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}" > $HOME/ssh_key/id_rsa_backend
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}" > $HOME/ssh_key/id_rsa_circuits
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}" > $HOME/ssh_key/id_rsa_protocol
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}" > $HOME/ssh_key/id_rsa_protos
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}" > $HOME/ssh_key/id_rsa_rust
+          chmod 600 $HOME/ssh_key/id_rsa*
       - name: Set SSH Agent Socket Path for Docker
         id: set-ssh-path
         run: echo "::set-output name=socket_path::$(echo $SSH_AUTH_SOCK)"
@@ -141,12 +150,11 @@ jobs:
             -e WORK_PATH=${{ env.WORK_PATH }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
-            -v ${{ steps.set-ssh-path.outputs.socket_path }}:/ssh-agent.sock
+            -v $HOME/ssh_key/:/root/.ssh/
             -w /build
           run: |
-            mkdir -p ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            export SSH_AUTH_SOCK=/ssh-agent.sock
+            eval "$(ssh-agent -s)"
+            ssh-add /root/.ssh/*
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
