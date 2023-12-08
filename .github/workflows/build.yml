@@ -54,15 +54,31 @@ jobs:
 #              cd $WORK_PATH &&
 #              apt-get update &&
 #              apt-get install -y ssh &&
+#               eval "$(ssh-agent -s)"
+#               ssh-keyscan github.com >> /root/.ssh/known_hosts
+#               ls -al /root/.ssh/
+#               for key in /root/.ssh/id_*; do
+#                 KEY_TYPE=$(ssh-keygen -l -f $key | cut -d' ' -f4)
+#                 echo "Key: $key, Type: $KEY_TYPE"
+#                 ssh-add $key
+#               done
 #              yarn build --target x86_64-unknown-linux-gnu &&
 #              strip -x $APP_NAME.*.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
-            build: |-
+            build: |
               set -e
               cd $WORK_PATH
-              apt-get update && apt-get install -y ssh
+              apt-get update && apt-get install -y ssh openssh-client
+              eval "$(ssh-agent -s)"
+              ssh-keyscan github.com >> /root/.ssh/known_hosts
+              ls -al /root/.ssh/
+              for key in /root/.ssh/id_*; do
+                 KEY_TYPE=$(ssh-keygen -l -f $key | cut -d' ' -f4)
+                 echo "Key: $key, Type: $KEY_TYPE"
+                 ssh-add $key
+              done
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
     name: stable - ${{ matrix.settings.target }} - node@18
@@ -150,14 +166,6 @@ jobs:
             -v /tmp/ssh_key/:/root/.ssh/
             -w /build
           run: |
-            ls -al /root/.ssh/
-            ssh-keyscan github.com >> /root/.ssh/known_hosts
-            eval "$(ssh-agent -s)"
-            for key in /root/.ssh/id_*; do
-               KEY_TYPE=$(ssh-keygen -l -f $key | cut -d' ' -f4)
-               echo "Key: $key, Type: $KEY_TYPE"
-               ssh-add $key
-            done
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
