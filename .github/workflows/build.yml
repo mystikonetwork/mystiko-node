@@ -86,12 +86,12 @@ jobs:
       - name: Copy SSH Key
         run: |
           mkdir -p /tmp/ssh_key
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}" > /tmp/ssh_key/id_rsa_backend
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}" > /tmp/ssh_key/id_rsa_circuits
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}" > /tmp/ssh_key/id_rsa_protocol
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}" > /tmp/ssh_key/id_rsa_protos
-          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}" > /tmp/ssh_key/id_rsa_rust
-          chmod 600 /tmp/ssh_key/id_rsa*
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}" > /tmp/ssh_key/id_backend
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}" > /tmp/ssh_key/id_circuits
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}" > /tmp/ssh_key/id_protocol
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}" > /tmp/ssh_key/id_protos
+          echo "${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}" > /tmp/ssh_key/id_rust
+          chmod 600 /tmp/ssh_key/id_*
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
@@ -151,9 +151,13 @@ jobs:
             -w /build
           run: |
             ls -al /root/.ssh/
-            ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+            ssh-keyscan github.com >> /root/.ssh/known_hosts
             eval "$(ssh-agent -s)"
-            ssh-add /root/.ssh/*
+            for key in /root/.ssh/id_*; do
+               KEY_TYPE=$(ssh-keygen -l -f $key | cut -d' ' -f4)
+               echo "Key: $key, Type: $KEY_TYPE"
+               ssh-add $key
+            done
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
