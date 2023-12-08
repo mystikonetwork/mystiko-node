@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "mystiko napi package with napi-rs",
   "main": "index.js",
+  "types": "index.d.ts",
   "license": "MIT",
   "keywords": [
     "napi-rs",
@@ -49,7 +50,7 @@
     "lint:rs-clippy": "cargo clippy --all-targets --all-features -j 4 -- -D warnings",
     "lint": "run-p lint:ts lint:rs-fmt lint:rs-clippy",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "yarn --version",
+    "test": "ava",
     "version": "napi version"
   },
   "devDependencies": {
