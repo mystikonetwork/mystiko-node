@@ -64,6 +64,9 @@ jobs:
               apt-get update
               apt-get install -y ssh
               cd $WORK_PATH
+              pwd
+              cp -r /root/.ssh /home/runner
+              ls -al /home/runner
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
     name: stable - ${{ matrix.settings.target }} - node@18
@@ -146,16 +149,14 @@ jobs:
             -e SSH_AUTH_SOCK=${{ env.SSH_AUTH_SOCK }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
-            -v ${{ github.workspace }}/root-config/.ssh:/home/runner/.ssh
-            -v ${{ github.workspace }}/root-config/.gitconfig:/home/runner/.gitconfig
+            -v ${{ github.workspace }}/root-config/.ssh:/root/.ssh
+            -v ${{ github.workspace }}/root-config/.gitconfig:/root/.gitconfig
             -v ${{ env.SSH_AUTH_SOCK }}:${{ env.SSH_AUTH_SOCK }}
             -w /build
           run: |
-            chown -R $(whoami):$(whoami) /home/runner
-            chown -R $(whoami):$(whoami) /home/runner/.ssh
-            chmod 600 /home/runner/.ssh/*
-            ls -al home/runner/.ssh/
-            ls -al /home/runner/
+            chown -R root:root /root/.ssh
+            chmod 600 /root/.ssh/*
+            ls -al /root/.ssh/
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
