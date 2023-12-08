@@ -121,9 +121,6 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
-      - name: Get SSH Agent Socket Path
-        id: ssh_info
-        run: echo "::set-output name=socket_path::$(echo $SSH_AUTH_SOCK)"
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
@@ -177,14 +174,25 @@ jobs:
             --user 0:0
             -e APP_NAME=${{ env.APP_NAME }}
             -e WORK_PATH=${{ env.WORK_PATH }}
+            -e SSH_PRIVATE_KEY_MYSTIKO_BACKEND=${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
+            -e SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS=${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
+            -e SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL=${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
+            -e SSH_PRIVATE_KEY_MYSTIKO_PROTOS=${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
+            -e SSH_PRIVATE_KEY_MYSTIKO_RUST=${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
             -v ${{ github.workspace }}:/build
             -v ${{ github.workspace }}/.npmrc:/.npmrc
             -v $SSH_AUTH_SOCK:/ssh-agent.sock
             -w /build
           run: |
             mkdir -p ~/.ssh
+            echo "$SSH_PRIVATE_KEY_MYSTIKO_BACKEND" > ~/.ssh/id_rsa_backend && chmod 600 ~/.ssh/id_rsa_backend
+            echo "$SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS" > ~/.ssh/id_rsa_circuits && chmod 600 ~/.ssh/id_rsa_circuits
+            echo "$SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL" > ~/.ssh/id_rsa_protocol && chmod 600 ~/.ssh/id_rsa_protocol
+            echo "$SSH_PRIVATE_KEY_MYSTIKO_PROTOS" > ~/.ssh/id_rsa_protos && chmod 600 ~/.ssh/id_rsa_protos
+            echo "$SSH_PRIVATE_KEY_MYSTIKO_RUST" > ~/.ssh/id_rsa_rust && chmod 600 ~/.ssh/id_rsa_rust
+            eval "$(ssh-agent -s)"
+            for key in ~/.ssh/id_rsa_*; do ssh-add "$key"; done
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            export SSH_AUTH_SOCK=/ssh-agent.sock
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
