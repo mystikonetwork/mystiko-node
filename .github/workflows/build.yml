@@ -134,7 +134,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/root-config
           cp -r ~/.gitconfig ~/.ssh ${{ github.workspace }}/root-config/
           chmod 600 ${{ github.workspace }}/root-config/.ssh/*
-          chmod 600 ${{ github.workspace }}/root-config/.gitconfig
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -152,8 +151,9 @@ jobs:
             -v ${{ env.SSH_AUTH_SOCK }}:${{ env.SSH_AUTH_SOCK }}
             -w /build
           run: |
+            chown -R root:root /root/.ssh
+            chmod 600 /root/.ssh/*
             ls -al /root/.ssh/
-            ls -al /root/.gitconfig
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
