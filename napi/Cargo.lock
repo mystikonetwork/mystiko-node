@@ -2982,7 +2982,6 @@ name = "mystiko-napi"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "libsqlite3-sys",
  "mystiko_config",
  "mystiko_lib",
  "mystiko_protos",
