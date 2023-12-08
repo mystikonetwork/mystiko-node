@@ -64,10 +64,6 @@ jobs:
               apt-get update
               apt-get install -y ssh
               cd $WORK_PATH
-              pwd
-              mkdir -p /home/runner/.ssh/
-              cp -r /root/.ssh/* /home/runner/.ssh/
-              ls -al /home/runner
               yarn build --target aarch64-unknown-linux-gnu
               aarch64-unknown-linux-gnu-strip $APP_NAME.*.node
     name: stable - ${{ matrix.settings.target }} - node@18
@@ -157,7 +153,8 @@ jobs:
           run: |
             chown -R root:root /root/.ssh
             chmod 600 /root/.ssh/*
-            ls -al /root/.ssh/
+            mkdir -p /home/runner/.ssh/
+            cp -r /root/.ssh/* /home/runner/.ssh/
             ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
@@ -335,6 +332,7 @@ jobs:
           options: '--platform linux/arm64 -v ${{ github.workspace }}/${{ env.WORK_PATH }}:/build -w /build'
           run: |
             set -e
+            yarn install
             yarn test
             ls -la
   publish:
