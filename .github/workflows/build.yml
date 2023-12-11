@@ -275,12 +275,12 @@ jobs:
         run: ls -R .
         shell: bash
         working-directory: ${{ env.WORK_PATH }}
-      - name: Install dependencies
-        run: |
-          yarn config set supportedArchitectures.cpu "arm64"
-          yarn config set supportedArchitectures.libc "glibc"
-          yarn install
-        working-directory: ${{ env.WORK_PATH }}
+#      - name: Install dependencies
+#        run: |
+#          yarn config set supportedArchitectures.cpu "arm64"
+#          yarn config set supportedArchitectures.libc "glibc"
+#          yarn install
+#        working-directory: ${{ env.WORK_PATH }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -294,6 +294,8 @@ jobs:
           options: '--platform linux/arm64 -v ${{ github.workspace }}/${{ env.WORK_PATH }}:/build -v ${{ github.workspace }}/.npmrc:/build/.npmrc -w /build'
           run: |
             set -e
+            yarn config set supportedArchitectures.cpu "arm64"
+            yarn config set supportedArchitectures.libc "glibc"
             yarn install
             yarn test
             ls -la
