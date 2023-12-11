@@ -145,7 +145,7 @@ jobs:
             -e WORK_PATH=${{ env.WORK_PATH }}
             -e SSH_AUTH_SOCK=${{ env.SSH_AUTH_SOCK }}
             -v ${{ github.workspace }}:/build
-            -v ${{ github.workspace }}/.npmrc:/.npmrc
+            -v ${{ github.workspace }}/.npmrc:/build/.npmrc
             -v ${{ github.workspace }}/root-config/.ssh:/root/.ssh
             -v ${{ github.workspace }}/root-config/.gitconfig:/root/.gitconfig
             -v ${{ env.SSH_AUTH_SOCK }}:${{ env.SSH_AUTH_SOCK }}
@@ -245,7 +245,7 @@ jobs:
 #        run: |
 #          docker run --rm \
 #            -v $(pwd)/${{ env.WORK_PATH }}:/build \
-#            -v ${{ github.workspace }}/.npmrc:/.npmrc \
+#            -v ${{ github.workspace }}/.npmrc:/build/.npmrc \
 #            -w /build \
 #            node:${{ matrix.node }}-slim \
 #            /bin/bash -c "yarn install && yarn test"
@@ -291,7 +291,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-slim
-          options: '--platform linux/arm64 -v ${{ github.workspace }}/${{ env.WORK_PATH }}:/build -v ${{ github.workspace }}/.npmrc:/.npmrc -w /build'
+          options: '--platform linux/arm64 -v ${{ github.workspace }}/${{ env.WORK_PATH }}:/build -v ${{ github.workspace }}/.npmrc:/build/.npmrc -w /build'
           run: |
             set -e
             yarn install
