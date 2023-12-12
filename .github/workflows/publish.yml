@@ -326,6 +326,8 @@ jobs:
       - name: Prepublish
         run: yarn prepublishOnly
         working-directory: ${{ env.WORK_PATH }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
       - name: Publish
         run: yarn npm publish
         working-directory: ${{ env.WORK_PATH }}
