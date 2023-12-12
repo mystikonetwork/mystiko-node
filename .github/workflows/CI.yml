@@ -1,5 +1,6 @@
 name: CI
-
+env:
+  GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 on:
   push:
     branches:
