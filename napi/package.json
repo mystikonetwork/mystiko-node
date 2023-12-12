@@ -4,6 +4,7 @@
   "description": "mystiko napi package with napi-rs",
   "main": "index.js",
   "types": "index.d.ts",
+  "repository": "git@github.com:mystikonetwork/mystiko-node.git",
   "license": "MIT",
   "keywords": [
     "napi-rs",
@@ -29,6 +30,10 @@
   },
   "engines": {
     "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "restricted"
   },
   "scripts": {
     "artifacts": "napi artifacts",

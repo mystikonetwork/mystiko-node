@@ -37,16 +37,16 @@ jobs:
             build: |
               yarn build
               strip -x $APP_NAME.*.node
-          - host: macos-latest
-            target: aarch64-apple-darwin
-            build: |
-              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
-              export CC=$(xcrun -f clang);
-              export CXX=$(xcrun -f clang++);
-              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
-              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              yarn build --target aarch64-apple-darwin
-              strip -x $APP_NAME.*.node
+#          - host: macos-latest
+#            target: aarch64-apple-darwin
+#            build: |
+#              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
+#              export CC=$(xcrun -f clang);
+#              export CXX=$(xcrun -f clang++);
+#              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
+#              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
+#              yarn build --target aarch64-apple-darwin
+#              strip -x $APP_NAME.*.node
 #          - host: ubuntu-latest
 #            target: x86_64-unknown-linux-gnu
 #            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
@@ -324,7 +324,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.WORK_PATH }}
       - name: Publish
-        run: yarn npm publish --access public
+        run: yarn npm publish
         working-directory: ${{ env.WORK_PATH }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
