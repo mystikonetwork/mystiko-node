@@ -128,3 +128,4 @@ target
 !.yarn/versions
 
 mystiko-napi.*.node
+.env

@@ -6,6 +6,7 @@ env:
   MACOSX_DEPLOYMENT_TARGET: '10.13'
   CARGO_UNSTABLE_TARGET_APPLIES_TO_HOST: true
   CARGO_TARGET_APPLIES_TO_HOST: false
+  GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 permissions:
   contents: write
   id-token: write
@@ -72,11 +73,6 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: SSH Agent
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -147,12 +143,12 @@ jobs:
             --user 0:0
             -e APP_NAME=${{ env.APP_NAME }}
             -e WORK_PATH=${{ env.WORK_PATH }}
+            -e GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
             -e SSH_AUTH_SOCK=${{ env.SSH_AUTH_SOCK }}
             -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db
             -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache
             -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index
             -v ${{ github.workspace }}:/build
-            -v ${{ github.workspace }}/.npmrc:/build/.npmrc
             -v ${{ github.workspace }}/root-config/.ssh:/root/.ssh
             -v ${{ github.workspace }}/root-config/.gitconfig:/root/.gitconfig
             -v ${{ env.SSH_AUTH_SOCK }}:${{ env.SSH_AUTH_SOCK }}
@@ -226,11 +222,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/
       - name: Enable Corepack
         run: corepack enable
       - name: Setup node
@@ -314,11 +305,8 @@ jobs:
 #      - test-linux-aarch64-gnu-binding
     steps:
       - uses: actions/checkout@v4
-      - name: Configure npm for GitHub Packages
-        run: |
-          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/
+      - name: Enable Corepack
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v4
         with:
