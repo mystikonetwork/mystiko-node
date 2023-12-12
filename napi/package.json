@@ -4,9 +4,12 @@
   "description": "mystiko napi package with napi-rs",
   "main": "index.js",
   "types": "index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mystikonetwork/mystiko-node",
+    "url": "git+https://github.com/mystikonetwork/mystiko-node.git",
     "directory": "napi"
   },
   "author": "eric",
@@ -35,9 +38,6 @@
   },
   "engines": {
     "node": ">= 10"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
     "artifacts": "napi artifacts",

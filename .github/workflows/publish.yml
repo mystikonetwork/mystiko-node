@@ -323,6 +323,11 @@ jobs:
         run: ls -R ./npm
         shell: bash
         working-directory: ${{ env.WORK_PATH }}
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/${{ env.WORK_PATH }}/.npmrc
       - name: Prepublish
         run: yarn prepublishOnly
         working-directory: ${{ env.WORK_PATH }}

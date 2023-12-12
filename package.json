@@ -3,7 +3,10 @@
   "version": "0.2.0",
   "description": "mystiko node package",
   "private": true,
-  "repository": "https://github.com/mystikonetwork/mystiko-node",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mystikonetwork/mystiko-node.git"
+  },
   "author": "eric",
   "license": "MIT",
   "workspaces": [
