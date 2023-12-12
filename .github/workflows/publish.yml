@@ -81,6 +81,8 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+      - name: Enable Corepack
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
@@ -115,8 +117,6 @@ jobs:
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         run: yarn config set supportedArchitectures.cpu "ia32"
         shell: bash
-      - name: Enable Corepack
-        run: corepack enable
       - name: Install dependencies
         run: yarn install
         working-directory: ${{ env.WORK_PATH }}
