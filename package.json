@@ -4,11 +4,11 @@
     "napi"
   ],
   "scripts": {
-    "artifacts": "yarn workspaces run artifacts",
-    "build": "yarn workspaces run build",
-    "format": "yarn workspaces run format",
-    "lint": "yarn workspaces run lint",
-    "test": "yarn workspaces run test"
+    "artifacts": "yarn workspaces foreach -A run artifacts",
+    "build": "yarn workspaces foreach -A run build",
+    "format": "yarn workspaces foreach -A run format",
+    "lint": "yarn workspaces foreach -A run lint",
+    "test": "yarn workspaces foreach -A run test"
   },
-  "version": "0.0.0"
+  "packageManager": "yarn@4.0.2"
 }
