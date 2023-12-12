@@ -20,18 +20,18 @@ yarn add @mystikonetwork/napi
 
 ### Operating Systems
 
-|                  | node14 | node16 | node18 |
-| ---------------- | ------ | ------ | ------ |
-| macOS x64        | ✓      | ✓      | ✓      |
-| macOS arm64      | ✓      | ✓      | ✓      |
-| Linux x64 gnu    | ✓      | ✓      | ✓      |
-| Linux arm64 gnu  | ✓      | ✓      | ✓      |
+|                 | node14 | node16 | node18 |
+| --------------- | ------ | ------ | ------ |
+| macOS x64       | ✓      | ✓      | ✓      |
+| macOS arm64     | ✓      | ✓      | ✓      |
+| Linux x64 gnu   | ✓      | ✓      | ✓      |
+| Linux arm64 gnu | ✓      | ✓      | ✓      |
 
 ## Ability
 
 ### Build
 
-After `yarn build/npm run build` command, you can see `mystiko-napi.[darwin|win32|linux].node` file in project root. This is the native addon built from [lib.rs](./src/lib.rs).
+After `yarn build/npm run build` command, you can see `mystiko-napi.[darwin|linux].node` file in project root. This is the native addon built from [lib.rs](./src/lib.rs).
 
 ### Test
 
@@ -39,7 +39,7 @@ With [ava](https://github.com/avajs/ava), run `yarn test/npm run test` to testin
 
 ### CI
 
-With GitHub Actions, each commit and pull request will be built and tested automatically in [`node@14`, `node@16`, `@node18`] x [`macOS`, `Linux`, `Windows`] matrix. You will never be afraid of the native addon broken in these platforms.
+With GitHub Actions, each commit and pull request will be built and tested automatically in [`node@14`, `node@16`, `@node18`] x [`macOS`, `Linux`] matrix. You will never be afraid of the native addon broken in these platforms.
 
 ### Release
 
@@ -64,19 +64,6 @@ In this package, we choose a better way to solve this problem. We release differ
 - yarn
 - yarn build
 - yarn test
-
-And you will see:
-
-```bash
-$ ava --verbose
-
-  ✔ sync function from native code
-  ✔ sleep function from native code (201ms)
-  ─
-
-  2 tests passed
-✨  Done in 1.12s.
-```
 
 ## Release package
 

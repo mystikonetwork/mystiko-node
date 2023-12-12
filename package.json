@@ -1,5 +1,11 @@
 {
+  "name": "mystiko-node",
+  "version": "0.2.0",
+  "description": "mystiko node package",
   "private": true,
+  "repository": "https://github.com/mystikonetwork/mystiko-node",
+  "author": "eric",
+  "license": "MIT",
   "workspaces": [
     "napi"
   ],
