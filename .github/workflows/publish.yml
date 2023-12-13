@@ -18,7 +18,6 @@ permissions:
       - '**/*.gitignore'
       - .editorconfig
       - docs/**
-  pull_request:
   workflow_dispatch:
     inputs:
       runTestMacOSBinding:
