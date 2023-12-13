@@ -18,6 +18,7 @@ permissions:
       - '**/*.gitignore'
       - .editorconfig
       - docs/**
+  pull_request:
   workflow_dispatch:
     inputs:
       runTestMacOSBinding:
@@ -208,7 +209,9 @@ jobs:
           node-version: 18
           cache: yarn
       - name: Install dependencies
-        run: yarn install
+        run: |
+          yarn install
+          npm i -g @napi-rs/cli@2.17.0
         working-directory: ${{ env.WORK_PATH }}
       - name: Download all artifacts
         uses: actions/download-artifact@v3
@@ -223,7 +226,7 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
           cp $HOME/.npmrc $GITHUB_WORKSPACE/${{ env.WORK_PATH }}/.npmrc
       - name: Prepublish
-        run: yarn prepublishOnly
+        run: napi prepublish -t npm
         working-directory: ${{ env.WORK_PATH }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}

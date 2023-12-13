@@ -54,13 +54,13 @@
     "lint:rs-fmt": "cargo fmt -- --check",
     "lint:rs-clippy": "cargo clippy --all-targets --all-features -j 4 -- -D warnings",
     "lint": "run-p lint:ts lint:rs-fmt lint:rs-clippy",
-    "prepublishOnly": "napi prepublish -t npm",
+    "prepublishOnly": "napi pre-publish",
     "test": "ava",
     "version": "napi version"
   },
   "devDependencies": {
     "@mystikonetwork/protos": "0.5.0",
-    "@napi-rs/cli": "^3.0.0-alpha.18",
+    "@napi-rs/cli": "3.0.0-alpha.18",
     "@swc-node/register": "^1.6.8",
     "@swc/core": "^1.3.95",
     "@taplo/cli": "^0.5.2",
