@@ -56,8 +56,10 @@ In this package, we choose a better way to solve this problem. We release differ
 ## Develop requirements
 
 - Install the latest `Rust`
+- Install cross-rs `cargo install cross --git https://github.com/cross-rs/cross`
 - Install `Node.js@10+` which fully supported `Node-API`
-- Install `yarn@1.x`
+- Install `yarn@4.0.2`
+- Install `docker`
 
 ## Test in local
 
