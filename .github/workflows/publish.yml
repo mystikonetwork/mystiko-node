@@ -52,6 +52,8 @@ jobs:
         with:
           toolchain: stable
           targets: ${{ matrix.targets }}
+      - name: Install cross
+        run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Enable Corepack
         run: corepack enable
       - name: Setup node
