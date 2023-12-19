@@ -107,6 +107,22 @@ test("test update", async () => {
     throw new Error("wallet are undefined");
   }
   expect(response2.account.name).toBe("new account by update");
+
+  const request3 = new api.v1.UpdateAccountRequest({
+    identifier: {
+      value: response.account[0].id,
+      case: "id",
+    },
+    options: new core.handler.v1.UpdateAccountOptions({
+      walletPassword: WalletPassword,
+      name: "test_account",
+    }),
+  });
+  const response3 = await mystiko.account?.update(request3);
+  if (!response3?.account) {
+    throw new Error("wallet are undefined");
+  }
+  expect(response3.account.name).toBe("test_account");
 });
 
 test("test export secret key", async () => {
