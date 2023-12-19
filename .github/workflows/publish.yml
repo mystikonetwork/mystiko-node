@@ -66,6 +66,8 @@ jobs:
         run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Enable Corepack
         run: corepack enable
+      - name: Copy env
+        run: echo "" >> .env
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -102,6 +104,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Enable Corepack
         run: corepack enable
+      - name: Copy env
+        run: echo "" >> .env
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -133,6 +137,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Enable Corepack
         run: corepack enable
+      - name: Copy env
+        run: echo "" >> .env
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -173,6 +179,8 @@ jobs:
           path: ${{ env.WORK_PATH }}
       - name: Enable Corepack
         run: corepack enable
+      - name: Copy env
+        run: echo "" >> .env
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
@@ -202,6 +210,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Enable Corepack
         run: corepack enable
+      - name: Copy env
+        run: echo "" >> .env
       - name: Setup node
         uses: actions/setup-node@v4
         with:

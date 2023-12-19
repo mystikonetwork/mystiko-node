@@ -1,4 +1,4 @@
-name: CI
+name: Build
 env:
   GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 on:
@@ -40,6 +40,8 @@ jobs:
         run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Enable Corepack
         run: corepack enable
+      - name: Make env
+        run: echo "" >> .env
       - name: Setup node
         uses: actions/setup-node@v4
         with:
