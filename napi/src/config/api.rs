@@ -8,10 +8,8 @@ pub struct Config;
 #[napi]
 impl Config {
   #[napi]
-  pub fn get(&self, request: Buffer) -> Buffer {
-    mystiko_lib::config::get::<&[u8]>(request.as_ref())
-      .encode_to_vec()
-      .into()
+  pub fn get(&self) -> Buffer {
+    mystiko_lib::config::get().encode_to_vec().into()
   }
 
   #[napi]
@@ -50,15 +48,15 @@ impl Config {
   }
 
   #[napi]
-  pub fn find_bridges(&self, request: Buffer) -> Buffer {
-    mystiko_lib::config::find_bridges::<&[u8]>(request.as_ref())
+  pub fn find_bridge(&self, request: Buffer) -> Buffer {
+    mystiko_lib::config::find_bridge::<&[u8]>(request.as_ref())
       .encode_to_vec()
       .into()
   }
 
   #[napi]
-  pub fn find_bridge(&self, request: Buffer) -> Buffer {
-    mystiko_lib::config::find_bridge::<&[u8]>(request.as_ref())
+  pub fn find_bridges(&self, request: Buffer) -> Buffer {
+    mystiko_lib::config::find_bridges::<&[u8]>(request.as_ref())
       .encode_to_vec()
       .into()
   }

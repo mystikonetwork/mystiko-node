@@ -22,6 +22,13 @@ impl Account {
   }
 
   #[napi]
+  pub fn count_all(&self) -> Buffer {
+    mystiko_lib::handler::account::count_all()
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
   pub fn find(&self, request: Buffer) -> Buffer {
     mystiko_lib::handler::account::find::<&[u8]>(request.as_ref())
       .encode_to_vec()

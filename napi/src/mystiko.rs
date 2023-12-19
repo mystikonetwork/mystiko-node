@@ -18,4 +18,9 @@ impl Mystiko {
   pub fn is_initialized() -> bool {
     mystiko_lib::is_initialized()
   }
+
+  #[napi]
+  pub fn destroy() {
+    mystiko_lib::destroy()
+  }
 }

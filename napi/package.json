@@ -12,7 +12,7 @@
     "url": "git+https://github.com/mystikonetwork/mystiko-node.git",
     "directory": "napi"
   },
-  "author": "eric",
+  "author": "Mystiko Network",
   "license": "MIT",
   "keywords": [
     "napi-rs",
@@ -39,18 +39,18 @@
     }
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 18"
   },
   "scripts": {
     "artifacts": "napi artifacts",
     "bench": "node -r @swc-node/register benchmark/bench.ts",
     "build": "napi build --use-cross --platform --release",
     "build:debug": "napi build --platform",
-    "format": "run-p format:prettier format:rs format:toml",
-    "format:prettier": "prettier . -w",
-    "format:toml": "taplo format",
-    "format:rs": "cargo fmt",
-    "lint:ts": "eslint . -c ./.eslintrc.yml",
+    "prettier": "run-p prettier:ts prettier:rs prettier:toml",
+    "prettier:ts": "prettier . -w && eslint --fix .",
+    "prettier:toml": "taplo format",
+    "prettier:rs": "cargo fmt",
+    "lint:ts": "eslint .",
     "lint:rs-fmt": "cargo fmt -- --check",
     "lint:rs-clippy": "cargo clippy --all-targets --all-features -j 4 -- -D warnings",
     "lint": "run-p lint:ts lint:rs-fmt lint:rs-clippy",
@@ -59,11 +59,13 @@
     "version": "napi version"
   },
   "devDependencies": {
-    "@mystikonetwork/protos": "0.5.0",
+    "@mystikonetwork/protos": "0.5.1",
     "@napi-rs/cli": "3.0.0-alpha.18",
     "@swc-node/register": "^1.6.8",
     "@swc/core": "^1.3.95",
     "@taplo/cli": "^0.5.2",
+    "@tsconfig/recommended": "^1.0.1",
+    "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "ava": "^5.3.1",
@@ -79,17 +81,6 @@
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   },
-  "lint-staged": {
-    "*.@(js|ts|tsx)": [
-      "eslint -c .eslintrc.yml --fix"
-    ],
-    "*.@(js|ts|tsx|yml|yaml|md|json)": [
-      "prettier --write"
-    ],
-    "*.toml": [
-      "taplo format"
-    ]
-  },
   "ava": {
     "require": [
       "@swc-node/register"
@@ -102,13 +93,6 @@
     "environmentVariables": {
       "TS_NODE_PROJECT": "./tsconfig.json"
     }
-  },
-  "prettier": {
-    "printWidth": 120,
-    "semi": false,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "arrowParens": "always"
   },
   "packageManager": "yarn@4.0.2"
 }

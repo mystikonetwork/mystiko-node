@@ -2,50 +2,48 @@
 /* eslint-disable */
 
 export class Account {
-
-  constructor()
-  create(request: Buffer): Buffer
-  count(request: Buffer): Buffer
-  find(request: Buffer): Buffer
-  findByIdentifier(request: Buffer): Buffer
-  update(request: Buffer): Buffer
-  updateEncryption(request: Buffer): Buffer
-  exportSecretKey(request: Buffer): Buffer
+  constructor();
+  create(request: Buffer): Buffer;
+  count(request: Buffer): Buffer;
+  countAll(): Buffer;
+  find(request: Buffer): Buffer;
+  findByIdentifier(request: Buffer): Buffer;
+  update(request: Buffer): Buffer;
+  updateEncryption(request: Buffer): Buffer;
+  exportSecretKey(request: Buffer): Buffer;
 }
 
 export class Config {
-
-  constructor()
-  get(request: Buffer): Buffer
-  findDefaultCircuit(request: Buffer): Buffer
-  findCircuit(request: Buffer): Buffer
-  findChain(request: Buffer): Buffer
-  findPeerChains(request: Buffer): Buffer
-  findAssetSymbols(request: Buffer): Buffer
-  findBridges(request: Buffer): Buffer
-  findBridge(request: Buffer): Buffer
-  findDepositContract(request: Buffer): Buffer
-  findDepositContractByAddress(request: Buffer): Buffer
-  findPoolContract(request: Buffer): Buffer
-  findPoolContracts(request: Buffer): Buffer
-  findPoolContractByAddress(request: Buffer): Buffer
-  findContractByAddress(request: Buffer): Buffer
-  getTransactionUrl(request: Buffer): Buffer
+  constructor();
+  get(): Buffer;
+  findDefaultCircuit(request: Buffer): Buffer;
+  findCircuit(request: Buffer): Buffer;
+  findChain(request: Buffer): Buffer;
+  findPeerChains(request: Buffer): Buffer;
+  findAssetSymbols(request: Buffer): Buffer;
+  findBridge(request: Buffer): Buffer;
+  findBridges(request: Buffer): Buffer;
+  findDepositContract(request: Buffer): Buffer;
+  findDepositContractByAddress(request: Buffer): Buffer;
+  findPoolContract(request: Buffer): Buffer;
+  findPoolContracts(request: Buffer): Buffer;
+  findPoolContractByAddress(request: Buffer): Buffer;
+  findContractByAddress(request: Buffer): Buffer;
+  getTransactionUrl(request: Buffer): Buffer;
 }
 
 export class Mystiko {
-
-  constructor()
-  initialize(request: Buffer): Buffer
-  static isInitialized(): boolean
+  constructor();
+  initialize(request: Buffer): Buffer;
+  static isInitialized(): boolean;
+  static destroy(): void;
 }
 
 export class Wallet {
-
-  constructor()
-  create(request: Buffer): Buffer
-  checkCurrent(request: Buffer): Buffer
-  checkPassword(request: Buffer): Buffer
-  exportMnemonicPhrase(request: Buffer): Buffer
+  constructor();
+  create(request: Buffer): Buffer;
+  checkCurrent(): Buffer;
+  checkPassword(request: Buffer): Buffer;
+  updatePassword(request: Buffer): Buffer;
+  exportMnemonicPhrase(request: Buffer): Buffer;
 }
-

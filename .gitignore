@@ -129,3 +129,4 @@ target
 
 mystiko-napi.*.node
 .env
+build
