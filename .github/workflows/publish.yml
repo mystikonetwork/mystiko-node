@@ -276,7 +276,7 @@ jobs:
           yarn build
         working-directory: ${{ env.WORK_NODE_PATH }}
       - name: Publish
-        run: yarn npm publish
+        run: yarn publish
         working-directory: ${{ env.WORK_NODE_PATH }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
