@@ -876,6 +876,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@mystikonetwork/node-lib@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@mystikonetwork/node-lib@workspace:."
+  languageName: unknown
+  linkType: soft
+
 "@mystikonetwork/node@workspace:node":
   version: 0.0.0-use.local
   resolution: "@mystikonetwork/node@workspace:node"
@@ -5841,12 +5847,6 @@ __metadata:
   checksum: dce2a9ccda171ec979a3b4f869a102b1343dee35e920146776780de182f16eae459644d187e38d59a3d37adf85685e1c17c38cf7bfda7e39a9880f7a1d10a74c
   languageName: node
   linkType: hard
-
-"mystiko-node@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "mystiko-node@workspace:."
-  languageName: unknown
-  linkType: soft
 
 "natural-compare@npm:^1.4.0":
   version: 1.4.0
