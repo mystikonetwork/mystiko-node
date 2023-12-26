@@ -56,7 +56,6 @@ rules:
     [
       2,
       {
-        'newlines-between': 'always',
         'alphabetize': { 'order': 'asc' },
         'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
       },
@@ -100,9 +99,8 @@ overrides:
             accessibility: 'explicit',
             overrides:
               {
-                accessors: 'no-public',
+                #accessors: 'no-public',
                 constructors: 'no-public',
-                methods: 'no-public',
                 properties: 'no-public',
                 parameterProperties: 'explicit',
               },

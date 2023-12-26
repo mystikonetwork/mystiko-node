@@ -22,6 +22,13 @@ impl Account {
   }
 
   #[napi]
+  pub fn count_all(&self) -> Buffer {
+    mystiko_lib::handler::account::count_all()
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
   pub fn find(&self, request: Buffer) -> Buffer {
     mystiko_lib::handler::account::find::<&[u8]>(request.as_ref())
       .encode_to_vec()
@@ -29,15 +36,50 @@ impl Account {
   }
 
   #[napi]
-  pub fn find_by_identifier(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::account::find_by_identifier::<&[u8]>(request.as_ref())
+  pub fn find_all(&self) -> Buffer {
+    mystiko_lib::handler::account::find_all()
       .encode_to_vec()
       .into()
   }
 
   #[napi]
-  pub fn update(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::account::update::<&[u8]>(request.as_ref())
+  pub fn find_by_id(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::find_by_id::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn find_by_shielded_address(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::find_by_shielded_address::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn find_by_public_key(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::find_by_public_key::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn update_by_id(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::update_by_id::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn update_by_shielded_address(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::update_by_shielded_address::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn update_by_public_key(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::update_by_public_key::<&[u8]>(request.as_ref())
       .encode_to_vec()
       .into()
   }
@@ -50,8 +92,22 @@ impl Account {
   }
 
   #[napi]
-  pub fn export_secret_key(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::account::export_secret_key::<&[u8]>(request.as_ref())
+  pub fn export_secret_key_by_id(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::export_secret_key_by_id::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn export_secret_key_by_shielded_address(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::export_secret_key_by_shielded_address::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn export_secret_key_by_public_key(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::account::export_secret_key_by_public_key::<&[u8]>(request.as_ref())
       .encode_to_vec()
       .into()
   }

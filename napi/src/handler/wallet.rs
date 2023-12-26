@@ -15,8 +15,8 @@ impl Wallet {
   }
 
   #[napi]
-  pub fn check_current(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::wallet::check_current::<&[u8]>(request.as_ref())
+  pub fn check_current(&self) -> Buffer {
+    mystiko_lib::handler::wallet::check_current()
       .encode_to_vec()
       .into()
   }
@@ -24,6 +24,13 @@ impl Wallet {
   #[napi]
   pub fn check_password(&self, request: Buffer) -> Buffer {
     mystiko_lib::handler::wallet::check_password::<&[u8]>(request.as_ref())
+      .encode_to_vec()
+      .into()
+  }
+
+  #[napi]
+  pub fn update_password(&self, request: Buffer) -> Buffer {
+    mystiko_lib::handler::wallet::update_password::<&[u8]>(request.as_ref())
       .encode_to_vec()
       .into()
   }

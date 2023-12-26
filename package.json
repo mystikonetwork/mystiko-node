@@ -1,7 +1,7 @@
 {
-  "name": "mystiko-node",
-  "version": "0.1.0",
-  "description": "mystiko node package",
+  "name": "@mystikonetwork/node-lib",
+  "version": "0.1.1",
+  "description": "mystiko node lib",
   "private": true,
   "repository": {
     "type": "git",
@@ -10,12 +10,13 @@
   "author": "eric",
   "license": "MIT",
   "workspaces": [
-    "napi"
+    "napi",
+    "node"
   ],
   "scripts": {
     "artifacts": "yarn workspaces foreach -A run artifacts",
     "build": "yarn workspaces foreach -A run build",
-    "format": "yarn workspaces foreach -A run format",
+    "prettier": "yarn workspaces foreach -A run prettier",
     "lint": "yarn workspaces foreach -A run lint",
     "test": "yarn workspaces foreach -A run test"
   },
