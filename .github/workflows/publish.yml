@@ -256,7 +256,7 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
       - name: Copy env
-        run: echo "" >> .env
+        run: echo "GITHUB_TOKEN=${{ secrets.PACKAGES_TOKEN }}" >> .env
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -276,7 +276,7 @@ jobs:
           yarn build
         working-directory: ${{ env.WORK_NODE_PATH }}
       - name: Publish
-        run: yarn publish
+        run: yarn npm publish
         working-directory: ${{ env.WORK_NODE_PATH }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
