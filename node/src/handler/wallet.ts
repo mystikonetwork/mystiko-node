@@ -1,78 +1,97 @@
-import { Wallet } from "@mystikonetwork/napi";
-import { api } from "@mystikonetwork/protos";
-import { buildErrorResponse } from "../common";
+import { Wallet } from '@mystikonetwork/napi';
+import { api, core } from '@mystikonetwork/protos';
+import { buildEmptyDataResponse, buildErrorResponse } from '../common';
 
-export class MystikoWallet {
+export class MystikoNodeWallet {
   private readonly wallet: Wallet;
 
   constructor() {
     this.wallet = new Wallet();
   }
 
-  create(
-    request: api.v1.CreateWalletRequest,
-  ): Promise<api.v1.CreateWalletResponse> {
+  public create(options: core.handler.v1.CreateWalletOptions): core.document.v1.Wallet {
+    const request = new api.handler.v1.CreateWalletRequest({
+      options,
+    });
     const response = this.wallet.create(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(response);
-    if (rsp.code?.success && rsp.result.case === "data") {
-      const data = api.v1.CreateWalletResponse.fromBinary(rsp.result.value);
-      return Promise.resolve(data);
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.handler.v1.CreateWalletResponse.fromBinary(rsp.result.value);
+      if (data.wallet) {
+        return data.wallet;
+      } else {
+        throw buildEmptyDataResponse();
+      }
     } else {
       throw buildErrorResponse(rsp);
     }
   }
 
-  checkCurrent(): Promise<api.v1.CheckCurrentResponse> {
+  public checkCurrent(): core.document.v1.Wallet {
     const response = this.wallet.checkCurrent();
     const rsp = api.v1.ApiResponse.fromBinary(response);
-    if (rsp.code?.success && rsp.result.case === "data") {
-      const data = api.v1.CheckCurrentResponse.fromBinary(rsp.result.value);
-      return Promise.resolve(data);
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.handler.v1.CheckCurrentResponse.fromBinary(rsp.result.value);
+      if (data.wallet) {
+        return data.wallet;
+      } else {
+        throw buildEmptyDataResponse();
+      }
     } else {
       throw buildErrorResponse(rsp);
     }
   }
 
-  checkPassword(
-    request: api.v1.CheckPasswordRequest,
-  ): Promise<api.v1.CheckPasswordResponse> {
+  public checkPassword(password: string): core.document.v1.Wallet {
+    const request = new api.handler.v1.CheckPasswordRequest({
+      password,
+    });
     const response = this.wallet.checkPassword(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(response);
-    if (rsp.code?.success && rsp.result.case === "data") {
-      const data = api.v1.CheckPasswordResponse.fromBinary(rsp.result.value);
-      return Promise.resolve(data);
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.handler.v1.CheckPasswordResponse.fromBinary(rsp.result.value);
+      if (data.wallet) {
+        return data.wallet;
+      } else {
+        throw buildEmptyDataResponse();
+      }
     } else {
       throw buildErrorResponse(rsp);
     }
   }
 
-  updatePassword(
-    request: api.v1.UpdatePasswordRequest,
-  ): Promise<api.v1.UpdatePasswordResponse> {
-    const response = this.wallet.updatePassword(
-      Buffer.from(request.toBinary()),
-    );
+  public updatePassword(oldPassword: string, newPassword: string): core.document.v1.Wallet {
+    const request = new api.handler.v1.UpdatePasswordRequest({
+      oldPassword,
+      newPassword,
+    });
+    const response = this.wallet.updatePassword(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(response);
-    if (rsp.code?.success && rsp.result.case === "data") {
-      const data = api.v1.UpdatePasswordResponse.fromBinary(rsp.result.value);
-      return Promise.resolve(data);
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.handler.v1.UpdatePasswordResponse.fromBinary(rsp.result.value);
+      if (data.wallet) {
+        return data.wallet;
+      } else {
+        throw buildEmptyDataResponse();
+      }
     } else {
       throw buildErrorResponse(rsp);
     }
   }
 
-  exportMnemonicPhrase(
-    request: api.v1.ExportMnemonicPhraseRequest,
-  ): Promise<api.v1.ExportMnemonicPhraseResponse> {
-    const response = this.wallet.exportMnemonicPhrase(
-      Buffer.from(request.toBinary()),
-    );
+  public exportMnemonicPhrase(password: string): string {
+    const request = new api.handler.v1.ExportMnemonicPhraseRequest({
+      password,
+    });
+    const response = this.wallet.exportMnemonicPhrase(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(response);
-    if (rsp.code?.success && rsp.result.case === "data") {
-      const data = api.v1.ExportMnemonicPhraseResponse.fromBinary(
-        rsp.result.value,
-      );
-      return Promise.resolve(data);
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.handler.v1.ExportMnemonicPhraseResponse.fromBinary(rsp.result.value);
+      if (data.mnemonicPhrase) {
+        return data.mnemonicPhrase;
+      } else {
+        throw buildEmptyDataResponse();
+      }
     } else {
       throw buildErrorResponse(rsp);
     }

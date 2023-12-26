@@ -1,21 +1,16 @@
-import { api } from "@mystikonetwork/protos";
-import test from "ava";
-import { Wallet } from "../index";
-import {
-  InitMystiko,
-  createWallet,
-  WalletPassword,
-  WalletMnemonicPhrase,
-} from "./base";
+import { api } from '@mystikonetwork/protos';
+import test from 'ava';
+import { Wallet } from '../index';
+import { InitMystiko, createWallet, WalletPassword, WalletMnemonicPhrase } from './base';
 
-const { CreateWalletResponse } = api.v1;
-const { CheckCurrentResponse } = api.v1;
-const { CheckPasswordRequest, CheckPasswordResponse } = api.v1;
-const { UpdatePasswordRequest, UpdatePasswordResponse } = api.v1;
-const { ExportMnemonicPhraseRequest, ExportMnemonicPhraseResponse } = api.v1;
+const { CreateWalletResponse } = api.handler.v1;
+const { CheckCurrentResponse } = api.handler.v1;
+const { CheckPasswordRequest, CheckPasswordResponse } = api.handler.v1;
+const { UpdatePasswordRequest, UpdatePasswordResponse } = api.handler.v1;
+const { ExportMnemonicPhraseRequest, ExportMnemonicPhraseResponse } = api.handler.v1;
 const { ApiResponse } = api.v1;
 
-test("test create", (t) => {
+test('test create', (t) => {
   InitMystiko();
   const response = createWallet();
   const rsp = ApiResponse.fromBinary(response);
@@ -25,7 +20,7 @@ test("test create", (t) => {
   t.pass();
 });
 
-test("test checkCurrent", (t) => {
+test('test checkCurrent', (t) => {
   InitMystiko();
   createWallet();
   const wallet = new Wallet();
@@ -37,7 +32,7 @@ test("test checkCurrent", (t) => {
   t.pass();
 });
 
-test("test checkPassword", (t) => {
+test('test checkPassword', (t) => {
   InitMystiko();
   createWallet();
   const wallet = new Wallet();
@@ -52,10 +47,10 @@ test("test checkPassword", (t) => {
   t.pass();
 });
 
-test("test updatePassword", (t) => {
+test('test updatePassword', (t) => {
   InitMystiko();
   createWallet();
-  const newPassword = "new&456Abc";
+  const newPassword = 'new&456Abc';
   const wallet = new Wallet();
   const request1 = new UpdatePasswordRequest({
     oldPassword: WalletPassword,
@@ -78,7 +73,7 @@ test("test updatePassword", (t) => {
   t.pass();
 });
 
-test("test exportMnemonicPhrase", (t) => {
+test('test exportMnemonicPhrase', (t) => {
   InitMystiko();
   createWallet();
   const wallet = new Wallet();

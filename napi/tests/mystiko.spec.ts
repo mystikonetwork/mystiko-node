@@ -1,8 +1,8 @@
-import test from "ava";
-import { Mystiko } from "../index";
-import { InitMystiko } from "./base";
+import test from 'ava';
+import { Mystiko } from '../index';
+import { InitMystiko } from './base';
 
-test("test mystiko", (t) => {
+test('test mystiko', (t) => {
   InitMystiko();
   const init = Mystiko.isInitialized();
   t.is(init, true);

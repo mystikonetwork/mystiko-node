@@ -1,4 +1,4 @@
-import { api } from "@mystikonetwork/protos";
+import { api } from '@mystikonetwork/protos';
 
 export class MystikoError extends Error {
   readonly code: api.v1.StatusCode;
@@ -9,19 +9,14 @@ export class MystikoError extends Error {
   }
 }
 
-export function createError(
-  message: string,
-  code: api.v1.StatusCode,
-): MystikoError {
+export function createError(message: string, code: api.v1.StatusCode): MystikoError {
   return new MystikoError(message, code);
 }
 
-export function createErrorPromise(
-  message: string,
-  code: api.v1.StatusCode,
-): Promise<any> {
+export function createErrorPromise(message: string, code: api.v1.StatusCode): Promise<any> {
   return Promise.reject(createError(message, code));
 }
+
 export function buildErrorResponse(response: api.v1.ApiResponse): MystikoError {
   const code =
     response.code ??
@@ -34,11 +29,23 @@ export function buildErrorResponse(response: api.v1.ApiResponse): MystikoError {
     });
 
   const message =
-    response.result.case === "errorMessage"
+    response.result.case === 'errorMessage'
       ? response.result.value
       : response.result.case === undefined
-        ? "undefined"
-        : "";
+        ? 'undefined'
+        : '';
 
+  return createError(message, code);
+}
+
+export function buildEmptyDataResponse(): MystikoError {
+  const code = new api.v1.StatusCode({
+    success: false,
+    error: {
+      case: undefined,
+      value: undefined,
+    },
+  });
+  const message = 'empty data error';
   return createError(message, code);
 }

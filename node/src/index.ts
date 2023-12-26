@@ -1,4 +1,4 @@
-import mystiko, { MystikoNode } from "./mystiko";
+import mystiko, { MystikoNode } from './mystiko';
 
 export { MystikoNode };
 export default mystiko;

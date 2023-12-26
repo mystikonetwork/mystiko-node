@@ -2,53 +2,96 @@
 /* eslint-disable */
 
 export class Account {
-
-  constructor()
-  create(request: Buffer): Buffer
-  count(request: Buffer): Buffer
-  countAll(): Buffer
-  find(request: Buffer): Buffer
-  findByIdentifier(request: Buffer): Buffer
-  update(request: Buffer): Buffer
-  updateEncryption(request: Buffer): Buffer
-  exportSecretKey(request: Buffer): Buffer
+  constructor();
+  create(request: Buffer): Buffer;
+  count(request: Buffer): Buffer;
+  countAll(): Buffer;
+  find(request: Buffer): Buffer;
+  findAll(): Buffer;
+  findById(request: Buffer): Buffer;
+  findByShieldedAddress(request: Buffer): Buffer;
+  findByPublicKey(request: Buffer): Buffer;
+  updateById(request: Buffer): Buffer;
+  updateByShieldedAddress(request: Buffer): Buffer;
+  updateByPublicKey(request: Buffer): Buffer;
+  updateEncryption(request: Buffer): Buffer;
+  exportSecretKeyById(request: Buffer): Buffer;
+  exportSecretKeyByShieldedAddress(request: Buffer): Buffer;
+  exportSecretKeyByPublicKey(request: Buffer): Buffer;
 }
 
 export class Config {
+  constructor();
+  get(): Buffer;
+  findDefaultCircuit(request: Buffer): Buffer;
+  findCircuit(request: Buffer): Buffer;
+  findChain(request: Buffer): Buffer;
+  findPeerChains(request: Buffer): Buffer;
+  findAssetSymbols(request: Buffer): Buffer;
+  findBridge(request: Buffer): Buffer;
+  findBridges(request: Buffer): Buffer;
+  findDepositContract(request: Buffer): Buffer;
+  findDepositContractByAddress(request: Buffer): Buffer;
+  findPoolContract(request: Buffer): Buffer;
+  findPoolContracts(request: Buffer): Buffer;
+  findPoolContractByAddress(request: Buffer): Buffer;
+  findContractByAddress(request: Buffer): Buffer;
+  getTransactionUrl(request: Buffer): Buffer;
+}
 
-  constructor()
-  get(): Buffer
-  findDefaultCircuit(request: Buffer): Buffer
-  findCircuit(request: Buffer): Buffer
-  findChain(request: Buffer): Buffer
-  findPeerChains(request: Buffer): Buffer
-  findAssetSymbols(request: Buffer): Buffer
-  findBridge(request: Buffer): Buffer
-  findBridges(request: Buffer): Buffer
-  findDepositContract(request: Buffer): Buffer
-  findDepositContractByAddress(request: Buffer): Buffer
-  findPoolContract(request: Buffer): Buffer
-  findPoolContracts(request: Buffer): Buffer
-  findPoolContractByAddress(request: Buffer): Buffer
-  findContractByAddress(request: Buffer): Buffer
-  getTransactionUrl(request: Buffer): Buffer
+export class Deposit {
+  constructor();
+  quote(request: Buffer): Buffer;
+  summary(request: Buffer): Buffer;
+  create(request: Buffer): Buffer;
+  send(request: Buffer): Buffer;
+  sendWithGrpc(request: Buffer): Buffer;
+  find(request: Buffer): Buffer;
+  findAll(): Buffer;
+  findOne(request: Buffer): Buffer;
+  findById(request: Buffer): Buffer;
+  count(request: Buffer): Buffer;
+  countAll(): Buffer;
+  update(request: Buffer): Buffer;
+  updateBatch(request: Buffer): Buffer;
+  updateByFilter(request: Buffer): Buffer;
+  updateAll(request: Buffer): Buffer;
+  delete(request: Buffer): Buffer;
+  deleteBatch(request: Buffer): Buffer;
+  deleteByFilter(request: Buffer): Buffer;
+  deleteAll(): Buffer;
 }
 
 export class Mystiko {
+  constructor();
+  initialize(request: Buffer): Buffer;
+  static isInitialized(): boolean;
+  static destroy(): void;
+}
 
-  constructor()
-  initialize(request: Buffer): Buffer
-  static isInitialized(): boolean
-  static destroy(): void
+export class Scanner {
+  constructor();
+  scan(request: Buffer): Buffer;
+  reset(request: Buffer): Buffer;
+  balance(request: Buffer): Buffer;
+  assets(request: Buffer): Buffer;
+  chainAssets(request: Buffer): Buffer;
+}
+
+export class Synchronizer {
+  constructor();
+  chainSyncedBlock(request: Buffer): Buffer;
+  contractSyncedBlock(request: Buffer): Buffer;
+  status(request: Buffer): Buffer;
+  sync(request: Buffer): Buffer;
+  reset(request: Buffer): Buffer;
 }
 
 export class Wallet {
-
-  constructor()
-  create(request: Buffer): Buffer
-  checkCurrent(): Buffer
-  checkPassword(request: Buffer): Buffer
-  updatePassword(request: Buffer): Buffer
-  exportMnemonicPhrase(request: Buffer): Buffer
+  constructor();
+  create(request: Buffer): Buffer;
+  checkCurrent(): Buffer;
+  checkPassword(request: Buffer): Buffer;
+  updatePassword(request: Buffer): Buffer;
+  exportMnemonicPhrase(request: Buffer): Buffer;
 }
-

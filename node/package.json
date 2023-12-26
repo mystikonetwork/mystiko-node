@@ -5,6 +5,9 @@
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
   "types": "build/cjs/index.d.ts",
+  "files": [
+    "build"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mystikonetwork/mystiko-node.git",
@@ -17,13 +20,13 @@
     "build:cjs": "tsc -p ./tsconfig.json",
     "build:esm": "tsc -p ./tsconfig.esm.json",
     "prettier": "run-p prettier:ts",
-    "prettier:ts": "prettier . -w && eslint --fix .",
+    "prettier:ts": "prettier . -w",
     "test": "jest --forceExit --coverage",
     "lint": "eslint . --ext .js,.ts"
   },
   "dependencies": {
     "@mystikonetwork/napi": "0.1.0",
-    "@mystikonetwork/protos": "0.5.1"
+    "@mystikonetwork/protos": "0.5.2"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",

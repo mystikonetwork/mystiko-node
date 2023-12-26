@@ -99,9 +99,8 @@ overrides:
             accessibility: 'explicit',
             overrides:
               {
-                accessors: 'no-public',
+                #accessors: 'no-public',
                 constructors: 'no-public',
-                methods: 'no-public',
                 properties: 'no-public',
                 parameterProperties: 'explicit',
               },

@@ -2,7 +2,8 @@ name: Publish
 env:
   DEBUG: 'napi:*'
   APP_NAME: 'mystiko-napi'
-  WORK_PATH: 'napi'
+  WORK_NAPI_PATH: 'napi'
+  WORK_NODE_PATH: 'node'
   GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
   MACOSX_DEPLOYMENT_TARGET: '10.13'
 permissions:
@@ -18,6 +19,7 @@ permissions:
       - '**/*.gitignore'
       - .editorconfig
       - docs/**
+  pull_request:
   workflow_dispatch:
     inputs:
       runTestMacOSBinding:
@@ -28,184 +30,227 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        targets:
-          [
-            'x86_64-apple-darwin',
-            'aarch64-apple-darwin',
-            'x86_64-unknown-linux-gnu',
-            'aarch64-unknown-linux-gnu',
-          ]
-    name: stable - ${{ matrix.targets }} - node@18
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: SSH Agent
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: |
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
-      - name: Docker Login
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-          targets: ${{ matrix.targets }}
-      - name: Install cross
-        run: cargo install cross --git https://github.com/cross-rs/cross
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Copy env
-        run: echo "" >> .env
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Build
-        run: yarn build --target ${{ matrix.targets }}
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: bindings-${{ matrix.targets }}
-          path: ${{ env.WORK_PATH }}/${{ env.APP_NAME }}.*.node
-          if-no-files-found: error
-  test-macOS-binding:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.runTestMacOSBinding == 'true' }}
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        settings:
-          - host: macos-latest
-            target: x86_64-apple-darwin
-        node:
-          - '18'
-          - '20'
-    runs-on: ${{ matrix.settings.host }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Copy env
-        run: echo "" >> .env
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-${{ matrix.settings.target }}
-          path: ${{ env.WORK_PATH }}
-      - name: Test bindings
-        run: yarn test
-        working-directory: ${{ env.WORK_PATH }}
-  test-linux-x64-gnu-binding:
-    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '18'
-          - '20'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Copy env
-        run: echo "" >> .env
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-x86_64-unknown-linux-gnu
-          path: ${{ env.WORK_PATH }}
-      - name: Test bindings
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/build \
-            -w /build/${{ env.WORK_PATH }} \
-            node:${{ matrix.node }}-slim \
-            /bin/bash -c "yarn test"
-  test-linux-aarch64-gnu-binding:
-    name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '18'
-          - '20'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-aarch64-unknown-linux-gnu
-          path: ${{ env.WORK_PATH }}
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Copy env
-        run: echo "" >> .env
-      - name: Install dependencies
-        run: |
-          yarn config set supportedArchitectures.cpu "arm64"
-          yarn config set supportedArchitectures.libc "glibc"
-          yarn install
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: node:${{ matrix.node }}-slim
-          options: '--platform linux/arm64 -v ${{ github.workspace }}:/build  -w /build/${{ env.WORK_PATH }}'
-          run: |
-            set -e
-            yarn test
-  publish-napi:
+#  build:
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        targets:
+#          [
+#            'x86_64-apple-darwin',
+#            'aarch64-apple-darwin',
+#            'x86_64-unknown-linux-gnu',
+#            'aarch64-unknown-linux-gnu',
+#          ]
+#    name: stable - ${{ matrix.targets }} - node@18
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: SSH Agent
+#        uses: webfactory/ssh-agent@v0.7.0
+#        with:
+#          ssh-private-key: |
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
+#            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+#      - name: Docker Login
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#      - name: Setup Rust
+#        uses: dtolnay/rust-toolchain@stable
+#        with:
+#          toolchain: stable
+#          targets: ${{ matrix.targets }}
+#      - name: Install cross
+#        run: cargo install cross --git https://github.com/cross-rs/cross
+#      - name: Enable Corepack
+#        run: corepack enable
+#      - name: Copy env
+#        run: echo "" >> .env
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: 18
+#          cache: yarn
+#      - name: Install dependencies
+#        run: yarn install
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Build
+#        run: yarn build --target ${{ matrix.targets }}
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: bindings-${{ matrix.targets }}
+#          path: ${{ env.WORK_NAPI_PATH }}/${{ env.APP_NAME }}.*.node
+#          if-no-files-found: error
+#  test-macOS-binding:
+#    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.runTestMacOSBinding == 'true' }}
+#    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+#    needs:
+#      - build
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        settings:
+#          - host: macos-latest
+#            target: x86_64-apple-darwin
+#        node:
+#          - '18'
+#          - '20'
+#    runs-on: ${{ matrix.settings.host }}
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Enable Corepack
+#        run: corepack enable
+#      - name: Copy env
+#        run: echo "" >> .env
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          cache: yarn
+#      - name: Install dependencies
+#        run: yarn install
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: bindings-${{ matrix.settings.target }}
+#          path: ${{ env.WORK_NAPI_PATH }}
+#      - name: Test bindings
+#        run: yarn test
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#  test-linux-x64-gnu-binding:
+#    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+#    needs:
+#      - build
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        node:
+#          - '18'
+#          - '20'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Enable Corepack
+#        run: corepack enable
+#      - name: Copy env
+#        run: echo "" >> .env
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          cache: yarn
+#      - name: Install dependencies
+#        run: yarn install
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: bindings-x86_64-unknown-linux-gnu
+#          path: ${{ env.WORK_NAPI_PATH }}
+#      - name: Test bindings
+#        run: |
+#          docker run --rm \
+#            -v ${{ github.workspace }}:/build \
+#            -w /build/${{ env.WORK_NAPI_PATH }} \
+#            node:${{ matrix.node }}-slim \
+#            /bin/bash -c "yarn test"
+#  test-linux-aarch64-gnu-binding:
+#    name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
+#    needs:
+#      - build
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        node:
+#          - '18'
+#          - '20'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Download artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: bindings-aarch64-unknown-linux-gnu
+#          path: ${{ env.WORK_NAPI_PATH }}
+#      - name: Enable Corepack
+#        run: corepack enable
+#      - name: Copy env
+#        run: echo "" >> .env
+#      - name: Install dependencies
+#        run: |
+#          yarn config set supportedArchitectures.cpu "arm64"
+#          yarn config set supportedArchitectures.libc "glibc"
+#          yarn install
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v3
+#        with:
+#          platforms: arm64
+#      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+#      - name: Setup and run tests
+#        uses: addnab/docker-run-action@v3
+#        with:
+#          image: node:${{ matrix.node }}-slim
+#          options: '--platform linux/arm64 -v ${{ github.workspace }}:/build  -w /build/${{ env.WORK_NAPI_PATH }}'
+#          run: |
+#            set -e
+#            yarn test
+#  publish-napi:
+#    name: Publish
+#    runs-on: ubuntu-latest
+#    needs:
+#      - test-linux-x64-gnu-binding
+#      - test-linux-aarch64-gnu-binding
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Enable Corepack
+#        run: corepack enable
+#      - name: Copy env
+#        run: echo "" >> .env
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: 18
+#          cache: yarn
+#      - name: Configure npm for GitHub Packages
+#        run: |
+#          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+#          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
+#          cp $HOME/.npmrc $GITHUB_WORKSPACE/${{ env.WORK_NAPI_PATH }}/.npmrc
+#      - name: Install dependencies
+#        run: |
+#          yarn install
+#          npm i -g @napi-rs/cli@2.17.0
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Download all artifacts
+#        uses: actions/download-artifact@v3
+#        with:
+#          path: ${{ env.WORK_NAPI_PATH }}/artifacts
+#      - name: Move artifacts
+#        run: yarn artifacts
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#      - name: Prepublish
+#        run: napi prepublish -t npm
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+#      - name: Publish
+#        run: yarn npm publish
+#        working-directory: ${{ env.WORK_NAPI_PATH }}
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+  publish-node:
     name: Publish
     runs-on: ubuntu-latest
     needs:
-      - test-linux-x64-gnu-binding
-      - test-linux-aarch64-gnu-binding
+      - publish-napi
     steps:
       - uses: actions/checkout@v4
       - name: Enable Corepack
@@ -217,38 +262,29 @@ jobs:
         with:
           node-version: 18
           cache: yarn
-      - name: Install dependencies
-        run: |
-          yarn install
-          npm i -g @napi-rs/cli@2.17.0
-        working-directory: ${{ env.WORK_PATH }}
-      - name: Download all artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: ${{ env.WORK_PATH }}/artifacts
-      - name: Move artifacts
-        run: yarn artifacts
-        working-directory: ${{ env.WORK_PATH }}
       - name: Configure npm for GitHub Packages
         run: |
           echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
-          cp $HOME/.npmrc $GITHUB_WORKSPACE/${{ env.WORK_PATH }}/.npmrc
-      - name: Prepublish
-        run: napi prepublish -t npm
-        working-directory: ${{ env.WORK_PATH }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+          cp $HOME/.npmrc $GITHUB_WORKSPACE/${{ env.WORK_NODE_PATH }}/.npmrc
+      - name: Install dependencies
+        run: |
+          yarn install
+        working-directory: ${{ env.WORK_NODE_PATH }}
+      - name: Build
+        run: |
+          yarn build
+        working-directory: ${{ env.WORK_NODE_PATH }}
       - name: Publish
         run: yarn npm publish
-        working-directory: ${{ env.WORK_PATH }}
+        working-directory: ${{ env.WORK_NODE_PATH }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-      - name: Telegram Failure Notification
-        uses: appleboy/telegram-action@master
-        if: failure()
-        with:
-          message: ❗ Build failed for [${{ github.repository }}](https://github.com/${{ github.repository }}/actions) because of ${{ github.actor }}
-          format: markdown
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+#      - name: Telegram Failure Notification
+#        uses: appleboy/telegram-action@master
+#        if: failure()
+#        with:
+#          message: ❗ Build failed for [${{ github.repository }}](https://github.com/${{ github.repository }}/actions) because of ${{ github.actor }}
+#          format: markdown
+#          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+#          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}

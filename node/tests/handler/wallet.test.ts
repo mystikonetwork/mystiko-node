@@ -1,75 +1,52 @@
-import { api } from "@mystikonetwork/protos";
-import mystiko from "../../src";
-import {
-  createWallet,
-  initMystiko,
-  WalletPassword,
-  WalletMnemonicPhrase,
-} from "../common/base";
+import mystiko from '../../src';
+import { createWallet, initMystiko, WalletMnemonicPhrase, WalletPassword } from '../common/base';
 
-beforeAll(async () => {
-  await initMystiko();
-  await createWallet();
+beforeAll(() => {
+  initMystiko();
+  createWallet();
 });
 
-test("check current", async () => {
-  const response = await mystiko.wallet?.checkCurrent();
-  if (!response?.wallet) {
-    throw new Error("wallet are undefined");
-  }
-  expect(response.wallet.accountNonce).toBe(0);
+test('check current', () => {
+  const response = mystiko.wallet?.checkCurrent();
+  expect(response).toBeDefined();
+  expect(response?.accountNonce).toBe(0);
 });
 
-test("check password", async () => {
-  const request = new api.v1.CheckPasswordRequest({
-    password: WalletPassword,
-  });
-  const response = await mystiko.wallet?.checkPassword(request);
-  if (!response?.wallet) {
-    throw new Error("wallet are undefined");
-  }
-  expect(response.wallet.accountNonce).toBe(0);
+test('check password', () => {
+  const response = mystiko.wallet?.checkPassword(WalletPassword);
+  expect(response).toBeDefined();
+  expect(response?.accountNonce).toBe(0);
+
+  expect(() => {
+    mystiko.wallet?.checkPassword('wrong password');
+  }).toThrow();
 });
 
-test("export mnemonic phrase", async () => {
-  const request = new api.v1.ExportMnemonicPhraseRequest({
-    password: WalletPassword,
-  });
-  const response = await mystiko.wallet?.exportMnemonicPhrase(request);
-  if (!response?.mnemonicPhrase) {
-    throw new Error("wallet are undefined");
-  }
-  expect(response.mnemonicPhrase).toBe(WalletMnemonicPhrase);
+test('update password', () => {
+  const newPassword = 'new&456Abc';
+  const response = mystiko.wallet?.updatePassword(WalletPassword, newPassword);
+  expect(response).toBeDefined();
+  expect(response?.accountNonce).toBe(0);
+
+  const response2 = mystiko.wallet?.checkPassword(newPassword);
+  expect(response2).toBeDefined();
+  expect(response2?.accountNonce).toBe(0);
+
+  const response3 = mystiko.wallet?.updatePassword(newPassword, WalletPassword);
+  expect(response3).toBeDefined();
+  expect(response3?.accountNonce).toBe(0);
+
+  expect(() => {
+    mystiko.wallet?.updatePassword('wrong password', WalletPassword);
+  }).toThrow();
 });
 
-test("update password", async () => {
-  const newPassword = "new&456Abc";
-  const request = new api.v1.UpdatePasswordRequest({
-    oldPassword: WalletPassword,
-    newPassword: newPassword,
-  });
-  const response = await mystiko.wallet?.updatePassword(request);
-  if (!response?.wallet) {
-    throw new Error("wallet are undefined");
-  }
-  expect(response.wallet.accountNonce).toBe(0);
+test('export mnemonic phrase', () => {
+  const response = mystiko.wallet?.exportMnemonicPhrase(WalletPassword);
+  expect(response).toBeDefined();
+  expect(response).toBe(WalletMnemonicPhrase);
 
-  const request2 = new api.v1.CheckPasswordRequest({
-    password: newPassword,
-  });
-  const response2 = await mystiko.wallet?.checkPassword(request2);
-  if (!response2?.wallet) {
-    throw new Error("wallet are undefined");
-  }
-  expect(response2.wallet.accountNonce).toBe(0);
-
-  const request3 = new api.v1.UpdatePasswordRequest({
-    oldPassword: newPassword,
-    newPassword: WalletPassword,
-  });
-  const response3 = await mystiko.wallet?.updatePassword(request3);
-  if (!response3?.wallet) {
-    throw new Error("wallet are undefined");
-  }
-  expect(response3.wallet.accountNonce).toBe(0);
+  expect(() => {
+    mystiko.wallet?.exportMnemonicPhrase('wrong password');
+  }).toThrow();
 });
