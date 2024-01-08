@@ -78,6 +78,29 @@ export class Scanner {
   chainAssets(request: Buffer): Buffer;
 }
 
+export class Spend {
+  constructor();
+  quote(request: Buffer): Buffer;
+  summary(request: Buffer): Buffer;
+  create(request: Buffer): Buffer;
+  send(request: Buffer): Buffer;
+  sendWithGrpc(request: Buffer): Buffer;
+  find(request: Buffer): Buffer;
+  findAll(): Buffer;
+  findOne(request: Buffer): Buffer;
+  findById(request: Buffer): Buffer;
+  count(request: Buffer): Buffer;
+  countAll(): Buffer;
+  update(request: Buffer): Buffer;
+  updateByFilter(request: Buffer): Buffer;
+  updateBatch(request: Buffer): Buffer;
+  updateAll(request: Buffer): Buffer;
+  delete(request: Buffer): Buffer;
+  deleteBatch(request: Buffer): Buffer;
+  deleteByFilter(request: Buffer): Buffer;
+  deleteAll(): Buffer;
+}
+
 export class Synchronizer {
   constructor();
   chainSyncedBlock(request: Buffer): Buffer;
