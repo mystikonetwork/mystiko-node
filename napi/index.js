@@ -296,5 +296,6 @@ module.exports.Config = nativeBinding.Config;
 module.exports.Deposit = nativeBinding.Deposit;
 module.exports.Mystiko = nativeBinding.Mystiko;
 module.exports.Scanner = nativeBinding.Scanner;
+module.exports.Spend = nativeBinding.Spend;
 module.exports.Synchronizer = nativeBinding.Synchronizer;
 module.exports.Wallet = nativeBinding.Wallet;

@@ -2,8 +2,7 @@ import { Mystiko } from '@mystikonetwork/napi';
 import { core, api } from '@mystikonetwork/protos';
 import { buildErrorResponse } from './common';
 import { MystikoNodeConfig } from './config';
-import { MystikoNodeAccount, MystikoNodeWallet } from './handler';
-import { MystikoNodeDeposit } from './handler/deposit';
+import { MystikoNodeAccount, MystikoNodeWallet, MystikoNodeDeposit, MystikoNodeSpend } from './handler';
 import { MystikoNodeScanner } from './scanner';
 import { MystikoNodeSynchronizer } from './synchronizer';
 
@@ -12,6 +11,7 @@ export class MystikoNode {
   wallet?: MystikoNodeWallet;
   account?: MystikoNodeAccount;
   deposit?: MystikoNodeDeposit;
+  spend?: MystikoNodeSpend;
   scanner?: MystikoNodeScanner;
   synchronizer?: MystikoNodeSynchronizer;
 
@@ -39,6 +39,7 @@ export class MystikoNode {
     this.wallet = new MystikoNodeWallet();
     this.account = new MystikoNodeAccount();
     this.deposit = new MystikoNodeDeposit();
+    this.spend = new MystikoNodeSpend();
     this.scanner = new MystikoNodeScanner();
     this.synchronizer = new MystikoNodeSynchronizer();
   }
