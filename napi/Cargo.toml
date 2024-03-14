@@ -16,12 +16,12 @@ anyhow = { version = "1.0.69" }
 prost = { version = "0.11.9" }
 typed-builder = { version = "0.15.2" }
 
-mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5077c34", features = [
+mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", features = [
   "proto",
   "fs",
 ] }
-mystiko_lib = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5077c34" }
-mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5077c34", default-features = false, features = [
+mystiko_lib = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670" }
+mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", default-features = false, features = [
   "mystiko-api-config-v1",
   "mystiko-api-handler-v1",
 ] }
