@@ -3177,6 +3177,7 @@ dependencies = [
  "mystiko_config",
  "mystiko_lib",
  "mystiko_protos",
+ "mystiko_relayer_client",
  "napi",
  "napi-build",
  "napi-derive",
@@ -3187,7 +3188,7 @@ dependencies = [
 [[package]]
 name = "mystiko_abi"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "ethers",
  "ethers-contract",
@@ -3199,7 +3200,7 @@ dependencies = [
 [[package]]
 name = "mystiko_config"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "lazy_static",
@@ -3221,7 +3222,7 @@ dependencies = [
 [[package]]
 name = "mystiko_core"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3308,7 +3309,7 @@ dependencies = [
 [[package]]
 name = "mystiko_dataloader"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3341,7 +3342,7 @@ dependencies = [
 [[package]]
 name = "mystiko_datapacker_client"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3365,7 +3366,7 @@ dependencies = [
 [[package]]
 name = "mystiko_datapacker_common"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3382,7 +3383,7 @@ dependencies = [
 [[package]]
 name = "mystiko_ethers"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3403,7 +3404,7 @@ dependencies = [
 [[package]]
 name = "mystiko_etherscan_client"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "ethers",
@@ -3421,7 +3422,7 @@ dependencies = [
 [[package]]
 name = "mystiko_grpc"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "http",
@@ -3434,7 +3435,7 @@ dependencies = [
 [[package]]
 name = "mystiko_lib"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "android_logger",
  "anyhow",
@@ -3477,7 +3478,7 @@ dependencies = [
 [[package]]
 name = "mystiko_protos"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "ethers-core",
@@ -3501,7 +3502,7 @@ dependencies = [
 [[package]]
 name = "mystiko_protos_macros"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "heck",
  "proc-macro2 1.0.69",
@@ -3512,7 +3513,7 @@ dependencies = [
 [[package]]
 name = "mystiko_relayer_abi"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "ethers",
  "ethers-contract",
@@ -3524,7 +3525,7 @@ dependencies = [
 [[package]]
 name = "mystiko_relayer_client"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3553,7 +3554,7 @@ dependencies = [
 [[package]]
 name = "mystiko_relayer_config"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "mystiko_relayer_abi",
@@ -3563,6 +3564,7 @@ dependencies = [
  "rust_decimal",
  "serde",
  "serde_json",
+ "tokio",
  "typed-builder 0.15.2",
  "validator",
 ]
@@ -3570,7 +3572,7 @@ dependencies = [
 [[package]]
 name = "mystiko_relayer_types"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "actix-web",
  "mystiko_abi",
@@ -3588,7 +3590,7 @@ dependencies = [
 [[package]]
 name = "mystiko_scheduler"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3601,7 +3603,7 @@ dependencies = [
 [[package]]
 name = "mystiko_sequencer_client"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3621,7 +3623,7 @@ dependencies = [
 [[package]]
 name = "mystiko_static_cache"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3638,7 +3640,7 @@ dependencies = [
 [[package]]
 name = "mystiko_storage"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3654,7 +3656,7 @@ dependencies = [
 [[package]]
 name = "mystiko_storage_macros"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "Inflector",
  "heck",
@@ -3666,7 +3668,7 @@ dependencies = [
 [[package]]
 name = "mystiko_storage_sqlite"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3684,7 +3686,7 @@ dependencies = [
 [[package]]
 name = "mystiko_types"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "serde",
 ]
@@ -3692,7 +3694,7 @@ dependencies = [
 [[package]]
 name = "mystiko_utils"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "anyhow",
  "ethers-core",
@@ -3705,7 +3707,7 @@ dependencies = [
 [[package]]
 name = "mystiko_validator"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=5077c34#5077c3467068cb37e96393be3ef04e037442b8b4"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=c066670#c06667053fe5bfb7ecfa0e6a3262a305b1db684c"
 dependencies = [
  "lazy_static",
  "regex 1.10.2",

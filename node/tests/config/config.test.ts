@@ -43,17 +43,15 @@ test('find chain', () => {
 });
 
 test('find peer chains', () => {
-  const response = mystiko.config?.findPeerChains(BigInt(97));
+  const response = mystiko.config?.findPeerChains(BigInt(11155111));
   expect(response).toBeDefined();
-  expect(response?.length).toBe(1);
-  expect(response?.[0].chainId).toBe(BigInt(5));
+  expect(response?.length).toBe(2);
 });
 
 test('find asset symbols', () => {
-  const response = mystiko.config?.findAssetSymbols(BigInt(97), BigInt(5));
+  const response = mystiko.config?.findAssetSymbols(BigInt(97), BigInt(11155111));
   expect(response).toBeDefined();
-  expect(response?.length).toBe(1);
-  expect(response?.[0]).toBe('MTT');
+  expect(response?.length).toBe(2);
 });
 
 test('find bridge', () => {
@@ -64,58 +62,58 @@ test('find bridge', () => {
 });
 
 test('find bridges', () => {
-  const response = mystiko.config?.findBridges(BigInt(97), BigInt(5), 'MTT');
+  const response = mystiko.config?.findBridges(BigInt(97), BigInt(11155111), 'MTT');
   expect(response).toBeDefined();
-  expect(response?.length).toBe(4);
+  expect(response?.length).toBe(1);
 });
 
 test('find deposit contract', () => {
   const response = mystiko.config?.findDepositContract(
-    BigInt(5),
+    BigInt(11155111),
     BigInt(97),
     'MTT',
     common.v1.BridgeType.TBRIDGE,
   );
   expect(response).toBeDefined();
-  expect(response?.name).toBe('MystikoV2WithTBridgeERC20');
-  expect(response?.address).toBe('0xbF5605f5Ed6d18ed957cBA80dbA8838dFcb9A69f');
+  expect(response?.name).toBe('MystikoV2TBridgeERC20');
+  expect(response?.address).toBe('0x3Df8021381101f4817d092369714554D3FA94bAF');
 });
 
 test('find deposit contract by address', () => {
   const response = mystiko.config?.findDepositContractByAddress(
-    BigInt(5),
-    '0xbF5605f5Ed6d18ed957cBA80dbA8838dFcb9A69f',
+    BigInt(11155111),
+    '0x643DD956aC516808538BF979b8440AbcebC3bcdA',
   );
   expect(response).toBeDefined();
-  expect(response?.name).toBe('MystikoV2WithTBridgeERC20');
-  expect(response?.address).toBe('0xbF5605f5Ed6d18ed957cBA80dbA8838dFcb9A69f');
+  expect(response?.name).toBe('MystikoV2LoopMain');
+  expect(response?.address).toBe('0x643DD956aC516808538BF979b8440AbcebC3bcdA');
 });
 
 test('find pool contract', () => {
-  const response = mystiko.config?.findPoolContract(BigInt(5), 'MTT', common.v1.BridgeType.TBRIDGE, 2);
+  const response = mystiko.config?.findPoolContract(BigInt(11155111), 'MTT', common.v1.BridgeType.TBRIDGE, 6);
   expect(response).toBeDefined();
   expect(response?.name).toBe('CommitmentPool');
-  expect(response?.address).toBe('0xF55Dbe8D71Df9Bbf5841052C75c6Ea9eA717fc6d');
+  expect(response?.address).toBe('0x09caD274331021f68d2531b7755AFFfBA060Bc59');
 });
 
 test('find pool contracts', () => {
-  const response = mystiko.config?.findPoolContracts(BigInt(5), 'MTT', common.v1.BridgeType.TBRIDGE);
+  const response = mystiko.config?.findPoolContracts(BigInt(11155111), 'MTT', common.v1.BridgeType.TBRIDGE);
   expect(response).toBeDefined();
-  expect(response?.length).toBe(2);
+  expect(response?.length).toBe(1);
 });
 
 test('find pool contract by address', () => {
   const response = mystiko.config?.findPoolContractByAddress(
-    BigInt(5),
-    '0xF55Dbe8D71Df9Bbf5841052C75c6Ea9eA717fc6d',
+    BigInt(11155111),
+    '0xAE77941b3bd4d2293E13A9a69E64A0ACFf5bBC55',
   );
   expect(response).toBeDefined();
   expect(response?.name).toBe('CommitmentPool');
-  expect(response?.address).toBe('0xF55Dbe8D71Df9Bbf5841052C75c6Ea9eA717fc6d');
+  expect(response?.address).toBe('0xAE77941b3bd4d2293E13A9a69E64A0ACFf5bBC55');
 });
 
 test('get transaction url', () => {
-  const response = mystiko.config?.getTransactionUrl(BigInt(5), 'txhash');
+  const response = mystiko.config?.getTransactionUrl(BigInt(11155111), 'txhash');
   expect(response).toBeDefined();
-  expect(response).toBe('https://goerli.etherscan.io/tx/txhash');
+  expect(response).toBe('https://sepolia.etherscan.io/tx/txhash');
 });

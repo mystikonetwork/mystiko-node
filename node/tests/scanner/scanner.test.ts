@@ -37,7 +37,7 @@ test('test reset', () => {
 test('test balance', () => {
   const options = new core.scanner.v1.BalanceOptions({
     shieldedAddresses: [],
-    chainIds: [BigInt(5), BigInt(97)],
+    chainIds: [BigInt(11155111), BigInt(97)],
     assetSymbols: ['MTT'],
   });
   const response = mystiko.scanner?.balance(options);
@@ -66,6 +66,6 @@ test('test chainAssets', () => {
   const options1 = new core.scanner.v1.AssetsOptions({
     shieldedAddresses: [shieldedAddress],
   });
-  const response1 = mystiko.scanner?.chainAssets(BigInt(5), options1);
+  const response1 = mystiko.scanner?.chainAssets(BigInt(11155111), options1);
   expect(response1).toBeUndefined();
 });

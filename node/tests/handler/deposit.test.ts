@@ -10,21 +10,21 @@ beforeAll(() => {
 
 test('test quote', () => {
   const options = new core.handler.v1.QuoteDepositOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
-    dstChainId: BigInt(97),
-    bridgeType: common.v1.BridgeType.TBRIDGE,
+    dstChainId: BigInt(11155111),
+    bridgeType: common.v1.BridgeType.LOOP,
   });
   const response = mystiko.deposit?.quote(options);
   expect(response).toBeDefined();
   expect(response?.assetSymbol).toBe('MTT');
-  expect(response?.assetDecimals).toBe(16);
-  expect(response?.minAmount).toBe(1);
+  expect(response?.assetDecimals).toBe(18);
+  expect(response?.minAmount).toBe(0.1);
 
   const options2 = new core.handler.v1.QuoteDepositOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
-    dstChainId: BigInt(5),
+    dstChainId: BigInt(11155111),
     bridgeType: common.v1.BridgeType.TBRIDGE,
   });
   expect(() => {
@@ -34,13 +34,13 @@ test('test quote', () => {
 
 test('test summary', () => {
   const options1 = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
     amount: 1,
     shieldedAddress:
       '13hMt2P6h8zp5t8Cxm5oAzTULg1boVEvzjaEPXmLtSBUmF4KKnaooWkBKBqZs9BYncvY6rA6TpCkAJ6cEXFEHWMHt',
-    dstChainId: BigInt(97),
-    bridgeType: common.v1.BridgeType.TBRIDGE,
+    dstChainId: BigInt(11155111),
+    bridgeType: common.v1.BridgeType.LOOP,
   });
   const response1 = mystiko.deposit?.summary(options1);
   expect(response1).toBeDefined();
@@ -48,9 +48,9 @@ test('test summary', () => {
   expect(response1?.amount).toBe(1);
 
   const options2 = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
-    dstChainId: BigInt(5),
+    dstChainId: BigInt(11155111),
     bridgeType: common.v1.BridgeType.TBRIDGE,
   });
   expect(() => {
@@ -60,23 +60,24 @@ test('test summary', () => {
 
 test('test create', () => {
   const options1 = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
     amount: 1,
     shieldedAddress:
       '13hMt2P6h8zp5t8Cxm5oAzTULg1boVEvzjaEPXmLtSBUmF4KKnaooWkBKBqZs9BYncvY6rA6TpCkAJ6cEXFEHWMHt',
-    dstChainId: BigInt(97),
-    bridgeType: common.v1.BridgeType.TBRIDGE,
+    dstChainId: BigInt(11155111),
+    bridgeType: common.v1.BridgeType.LOOP,
   });
   const response1 = mystiko.deposit?.create(options1);
   expect(response1).toBeDefined();
   expect(response1?.assetSymbol).toBe('MTT');
   expect(response1?.amount).toBe(1);
+  mystiko.deposit?.deleteAll();
 
   const options2 = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
-    dstChainId: BigInt(5),
+    dstChainId: BigInt(11155111),
     bridgeType: common.v1.BridgeType.TBRIDGE,
   });
   expect(() => {
@@ -116,11 +117,13 @@ test('test sendWithGrpc', () => {
 });
 
 test('test find', () => {
-  const response = mystiko.deposit?.find();
-  expect(response).toBeDefined();
-  expect(response?.length).toBe(1);
-  expect(response?.[0].chainId).toBe(BigInt(5));
-  expect(response?.[0].dstChainId).toBe(BigInt(97));
+  createDefaultDeposit();
+
+  const response0 = mystiko.deposit?.find();
+  expect(response0).toBeDefined();
+  expect(response0?.length).toBe(1);
+  expect(response0?.[0].chainId).toBe(BigInt(11155111));
+  expect(response0?.[0].dstChainId).toBe(BigInt(11155111));
 
   const filter1 = new storage.v1.QueryFilter({
     conditions: [],
@@ -129,8 +132,8 @@ test('test find', () => {
   const response1 = mystiko.deposit?.find(filter1);
   expect(response1).toBeDefined();
   expect(response1?.length).toBe(1);
-  expect(response1?.[0].chainId).toBe(BigInt(5));
-  expect(response1?.[0].dstChainId).toBe(BigInt(97));
+  expect(response1?.[0].chainId).toBe(BigInt(11155111));
+  expect(response1?.[0].dstChainId).toBe(BigInt(11155111));
 
   const filter2 = new storage.v1.Condition({
     subFilters: [],
@@ -139,8 +142,8 @@ test('test find', () => {
   const response2 = mystiko.deposit?.find(filter2);
   expect(response2).toBeDefined();
   expect(response2?.length).toBe(1);
-  expect(response2?.[0].chainId).toBe(BigInt(5));
-  expect(response2?.[0].dstChainId).toBe(BigInt(97));
+  expect(response2?.[0].chainId).toBe(BigInt(11155111));
+  expect(response2?.[0].dstChainId).toBe(BigInt(11155111));
 
   const filter3 = new storage.v1.SubFilter({
     column: 'id',
@@ -150,19 +153,22 @@ test('test find', () => {
   const response3 = mystiko.deposit?.find(filter3);
   expect(response3).toBeDefined();
   expect(response3?.length).toBe(1);
-  expect(response3?.[0].chainId).toBe(BigInt(5));
-  expect(response3?.[0].dstChainId).toBe(BigInt(97));
+  expect(response3?.[0].chainId).toBe(BigInt(11155111));
+  expect(response3?.[0].dstChainId).toBe(BigInt(11155111));
+  mystiko.deposit?.deleteAll();
 });
 
 test('test findOne', () => {
+  createDefaultDeposit();
+
   const filter1 = new storage.v1.QueryFilter({
     conditions: [],
     conditionsOperator: storage.v1.ConditionOperator.OR,
   });
   const response1 = mystiko.deposit?.findOne(filter1);
   expect(response1).toBeDefined();
-  expect(response1?.chainId).toBe(BigInt(5));
-  expect(response1?.dstChainId).toBe(BigInt(97));
+  expect(response1?.chainId).toBe(BigInt(11155111));
+  expect(response1?.dstChainId).toBe(BigInt(11155111));
 
   const filter2 = new storage.v1.Condition({
     subFilters: [],
@@ -170,8 +176,8 @@ test('test findOne', () => {
   });
   const response2 = mystiko.deposit?.findOne(filter2);
   expect(response2).toBeDefined();
-  expect(response2?.chainId).toBe(BigInt(5));
-  expect(response2?.dstChainId).toBe(BigInt(97));
+  expect(response2?.chainId).toBe(BigInt(11155111));
+  expect(response2?.dstChainId).toBe(BigInt(11155111));
 
   const filter3 = new storage.v1.SubFilter({
     column: 'id',
@@ -180,25 +186,33 @@ test('test findOne', () => {
   });
   const response3 = mystiko.deposit?.findOne(filter3);
   expect(response3).toBeDefined();
-  expect(response3?.chainId).toBe(BigInt(5));
-  expect(response3?.dstChainId).toBe(BigInt(97));
+  expect(response3?.chainId).toBe(BigInt(11155111));
+  expect(response3?.dstChainId).toBe(BigInt(11155111));
+
+  mystiko.deposit?.deleteAll();
 });
 
 test('test findById', () => {
+  createDefaultDeposit();
+
   const response = mystiko.deposit?.find();
   expect(response).toBeDefined();
   expect(response?.length).toBe(1);
-  expect(response?.[0].chainId).toBe(BigInt(5));
-  expect(response?.[0].dstChainId).toBe(BigInt(97));
+  expect(response?.[0].chainId).toBe(BigInt(11155111));
+  expect(response?.[0].dstChainId).toBe(BigInt(11155111));
 
   const id = response?.[0].id ? response?.[0].id : 'id';
   const response1 = mystiko.deposit?.findById(id);
   expect(response1).toBeDefined();
-  expect(response1?.chainId).toBe(BigInt(5));
-  expect(response1?.dstChainId).toBe(BigInt(97));
+  expect(response1?.chainId).toBe(BigInt(11155111));
+  expect(response1?.dstChainId).toBe(BigInt(11155111));
+
+  mystiko.deposit?.deleteAll();
 });
 
 test('test count', () => {
+  createDefaultDeposit();
+
   const response = mystiko.deposit?.count();
   expect(response).toBeDefined();
   expect(response).toBeGreaterThanOrEqual(BigInt(0));
@@ -227,34 +241,41 @@ test('test count', () => {
   const response3 = mystiko.deposit?.count(filter3);
   expect(response3).toBeDefined();
   expect(response3).toBeGreaterThanOrEqual(BigInt(0));
+
+  mystiko.deposit?.deleteAll();
 });
 
 test('test update', () => {
+  createDefaultDeposit();
+
   const deposits = mystiko.deposit?.find();
   expect(deposits).toBeDefined();
   expect(deposits?.length).toBe(1);
-  expect(deposits?.[0].chainId).toBe(BigInt(5));
-  expect(deposits?.[0].dstChainId).toBe(BigInt(97));
+  expect(deposits?.[0].chainId).toBe(BigInt(11155111));
+  expect(deposits?.[0].dstChainId).toBe(BigInt(11155111));
 
   const deposit = deposits?.[0];
   if (deposit) {
     deposit.amount = 1234567;
     const response1 = mystiko.deposit?.update(deposit);
     expect(response1).toBeDefined();
-    expect(response1?.chainId).toBe(BigInt(5));
-    expect(response1?.dstChainId).toBe(BigInt(97));
+    expect(response1?.chainId).toBe(BigInt(11155111));
+    expect(response1?.dstChainId).toBe(BigInt(11155111));
     expect(response1?.amount).toBe(1234567);
   } else {
     throw new Error('Deposit is undefined');
   }
+  mystiko.deposit?.deleteAll();
 });
 
 test('test updateBatch', () => {
+  createDefaultDeposit();
+
   const deposits = mystiko.deposit?.find();
   expect(deposits).toBeDefined();
   expect(deposits?.length).toBe(1);
-  expect(deposits?.[0].chainId).toBe(BigInt(5));
-  expect(deposits?.[0].dstChainId).toBe(BigInt(97));
+  expect(deposits?.[0].chainId).toBe(BigInt(11155111));
+  expect(deposits?.[0].dstChainId).toBe(BigInt(11155111));
 
   const deposit = deposits?.[0];
   if (deposit) {
@@ -262,15 +283,18 @@ test('test updateBatch', () => {
     const response1 = mystiko.deposit?.updateBatch([deposit]);
     expect(response1).toBeDefined();
     expect(response1?.length).toBe(1);
-    expect(response1?.[0].chainId).toBe(BigInt(5));
-    expect(response1?.[0].dstChainId).toBe(BigInt(97));
+    expect(response1?.[0].chainId).toBe(BigInt(11155111));
+    expect(response1?.[0].dstChainId).toBe(BigInt(11155111));
     expect(response1?.[0].amount).toBe(7654321);
   } else {
     throw new Error('Deposit is undefined');
   }
+  mystiko.deposit?.deleteAll();
 });
 
 test('test update by filter', () => {
+  createDefaultDeposit();
+
   const columnValues = [
     new api.handler.v1.ColumnValuePair({
       column: 'amount',
@@ -293,9 +317,13 @@ test('test update by filter', () => {
   expect(deposits).toBeDefined();
   expect(deposits?.length).toBe(1);
   expect(deposits?.[0].amount).toBe(88888);
+
+  mystiko.deposit?.deleteAll();
 });
 
 test('test update all', () => {
+  createDefaultDeposit();
+
   const columnValues = [
     new api.handler.v1.ColumnValuePair({
       column: 'amount',
@@ -314,14 +342,18 @@ test('test update all', () => {
   expect(deposits).toBeDefined();
   expect(deposits?.length).toBe(1);
   expect(deposits?.[0].amount).toBe(99999);
+
+  mystiko.deposit?.deleteAll();
 });
 
 test('test delete', () => {
+  createDefaultDeposit();
+
   const deposits = mystiko.deposit?.find();
   expect(deposits).toBeDefined();
   expect(deposits?.length).toBe(1);
-  expect(deposits?.[0].chainId).toBe(BigInt(5));
-  expect(deposits?.[0].dstChainId).toBe(BigInt(97));
+  expect(deposits?.[0].chainId).toBe(BigInt(11155111));
+  expect(deposits?.[0].dstChainId).toBe(BigInt(11155111));
 
   const deposit = deposits?.[0];
   if (deposit) {
@@ -332,72 +364,60 @@ test('test delete', () => {
   } else {
     throw new Error('Deposit is undefined');
   }
+
+  mystiko.deposit?.deleteAll();
 });
 
 test('test delete batch', () => {
-  const options = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
-    assetSymbol: 'MTT',
-    amount: 1,
-    shieldedAddress:
-      '13hMt2P6h8zp5t8Cxm5oAzTULg1boVEvzjaEPXmLtSBUmF4KKnaooWkBKBqZs9BYncvY6rA6TpCkAJ6cEXFEHWMHt',
-    dstChainId: BigInt(97),
-    bridgeType: common.v1.BridgeType.TBRIDGE,
+  createDefaultDeposit();
+  const filter1 = new storage.v1.QueryFilter({
+    conditions: [],
+    conditionsOperator: storage.v1.ConditionOperator.OR,
   });
-  const deposit = mystiko.deposit?.create(options);
+  const deposit = mystiko.deposit?.findOne(filter1);
+  expect(deposit).toBeDefined();
   if (deposit) {
     mystiko.deposit?.deleteBatch([deposit]);
     const deposits = mystiko.deposit?.find();
     expect(deposits).toBeDefined();
     expect(deposits?.length).toBe(0);
-  } else {
-    throw new Error('Deposit is undefined');
   }
+  mystiko.deposit?.deleteAll();
 });
 
 test('test delete all', () => {
-  const options = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
-    assetSymbol: 'MTT',
-    amount: 1,
-    shieldedAddress:
-      '13hMt2P6h8zp5t8Cxm5oAzTULg1boVEvzjaEPXmLtSBUmF4KKnaooWkBKBqZs9BYncvY6rA6TpCkAJ6cEXFEHWMHt',
-    dstChainId: BigInt(97),
-    bridgeType: common.v1.BridgeType.TBRIDGE,
-  });
-  const deposit = mystiko.deposit?.create(options);
-  if (deposit) {
-    mystiko.deposit?.deleteAll();
-    const deposits = mystiko.deposit?.find();
-    expect(deposits).toBeDefined();
-    expect(deposits?.length).toBe(0);
-  } else {
-    throw new Error('Deposit is undefined');
-  }
+  createDefaultDeposit();
+
+  mystiko.deposit?.deleteAll();
+  const deposits = mystiko.deposit?.find();
+  expect(deposits).toBeDefined();
+  expect(deposits?.length).toBe(0);
 });
 
 test('test delete by filter', () => {
-  const options = new core.handler.v1.CreateDepositOptions({
-    chainId: BigInt(5),
+  createDefaultDeposit();
+  const deposits1 = mystiko.deposit?.find();
+  expect(deposits1).toBeDefined();
+  expect(deposits1?.length).toBe(1);
+  const filter = new storage.v1.QueryFilter({
+    conditions: [],
+    conditionsOperator: storage.v1.ConditionOperator.OR,
+  });
+  mystiko.deposit?.deleteByFilter(filter);
+  const deposits2 = mystiko.deposit?.find();
+  expect(deposits2).toBeDefined();
+  expect(deposits2?.length).toBe(0);
+});
+
+function createDefaultDeposit() {
+  const options1 = new core.handler.v1.CreateDepositOptions({
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
     amount: 1,
     shieldedAddress:
       '13hMt2P6h8zp5t8Cxm5oAzTULg1boVEvzjaEPXmLtSBUmF4KKnaooWkBKBqZs9BYncvY6rA6TpCkAJ6cEXFEHWMHt',
-    dstChainId: BigInt(97),
-    bridgeType: common.v1.BridgeType.TBRIDGE,
+    dstChainId: BigInt(11155111),
+    bridgeType: common.v1.BridgeType.LOOP,
   });
-  const deposit = mystiko.deposit?.create(options);
-  if (deposit) {
-    const filter = new storage.v1.QueryFilter({
-      conditions: [],
-      conditionsOperator: storage.v1.ConditionOperator.OR,
-    });
-
-    mystiko.deposit?.deleteByFilter(filter);
-    const deposits = mystiko.deposit?.find();
-    expect(deposits).toBeDefined();
-    expect(deposits?.length).toBe(0);
-  } else {
-    throw new Error('Deposit is undefined');
-  }
-});
+  mystiko.deposit?.create(options1);
+}

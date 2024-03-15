@@ -10,7 +10,7 @@ beforeAll(() => {
 
 test('test quote', () => {
   const options = new core.handler.v1.QuoteSpendOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
     bridgeType: common.v1.BridgeType.TBRIDGE,
   });
@@ -19,7 +19,7 @@ test('test quote', () => {
   expect(response?.valid).toBe(false);
 
   const options2 = new core.handler.v1.QuoteSpendOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'WrongToken',
     bridgeType: common.v1.BridgeType.TBRIDGE,
   });
@@ -30,7 +30,7 @@ test('test quote', () => {
 
 test('test summary', () => {
   const options = new core.handler.v1.CreateSpendOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
     amount: 1,
     spendType: core.v1.SpendType.WITHDRAW,
@@ -44,7 +44,7 @@ test('test summary', () => {
 
 test('test create', () => {
   const options = new core.handler.v1.CreateSpendOptions({
-    chainId: BigInt(5),
+    chainId: BigInt(11155111),
     assetSymbol: 'MTT',
     amount: 1,
     bridgeType: common.v1.BridgeType.TBRIDGE,
