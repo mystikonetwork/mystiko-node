@@ -3177,6 +3177,7 @@ dependencies = [
  "mystiko_config",
  "mystiko_lib",
  "mystiko_protos",
+ "mystiko_relayer_client",
  "napi",
  "napi-build",
  "napi-derive",
@@ -3563,6 +3564,7 @@ dependencies = [
  "rust_decimal",
  "serde",
  "serde_json",
+ "tokio",
  "typed-builder 0.15.2",
  "validator",
 ]

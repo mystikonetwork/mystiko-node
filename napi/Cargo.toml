@@ -20,6 +20,9 @@ mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git",
   "proto",
   "fs",
 ] }
+mystiko_relayer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", features = [
+  "fs",
+] }
 mystiko_lib = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670" }
 mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", default-features = false, features = [
   "mystiko-api-config-v1",
