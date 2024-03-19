@@ -82,8 +82,8 @@ export class MystikoNodeSynchronizer {
     }
   }
 
-  public reset(options: core.synchronizer.v1.ResetOptions) {
-    const request = new api.synchronizer.v1.ResetRequest({
+  public reset(options: core.synchronizer.v1.SynchronizerResetOptions) {
+    const request = new api.synchronizer.v1.SynchronizerResetRequest({
       options,
     });
     const response = this.synchronizer.reset(Buffer.from(request.toBinary()));
