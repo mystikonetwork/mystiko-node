@@ -852,7 +852,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mystikonetwork/napi@workspace:napi"
   dependencies:
-    "@mystikonetwork/protos": "npm:0.5.4"
+    "@mystikonetwork/protos": "npm:0.5.6"
     "@napi-rs/cli": "npm:3.0.0-alpha.18"
     "@swc-node/register": "npm:^1.6.8"
     "@swc/core": "npm:^1.3.95"
@@ -887,7 +887,7 @@ __metadata:
   resolution: "@mystikonetwork/node@workspace:node"
   dependencies:
     "@mystikonetwork/napi": "npm:0.1.6"
-    "@mystikonetwork/protos": "npm:0.5.4"
+    "@mystikonetwork/protos": "npm:0.5.6"
     "@tsconfig/recommended": "npm:^1.0.1"
     "@types/jest": "npm:^27.4.0"
     "@types/node": "npm:^17.0.21"
@@ -908,12 +908,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mystikonetwork/protos@npm:0.5.4":
-  version: 0.5.4
-  resolution: "@mystikonetwork/protos@npm:0.5.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40mystikonetwork%2Fprotos%2F0.5.4%2F5ef26740956376db63f94e156498da6ed4e6cc1c"
+"@mystikonetwork/protos@npm:0.5.6":
+  version: 0.5.6
+  resolution: "@mystikonetwork/protos@npm:0.5.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40mystikonetwork%2Fprotos%2F0.5.6%2Ffd1714c6b44b221c484ed0fc94503dde0a4f6285"
   dependencies:
     "@bufbuild/protobuf": "npm:^1.3.3"
-  checksum: c5566dfab2f186b455baa84489587d087c4608271e09bc6a26bb501f136dff41a0e4dee6637257b92c19f6d743e399bffd48a1e6187b69a650031bf7ea88485e
+  checksum: 63eac10564bb2050560408f2d06bd900e3c9f97ae97fdbddc9edba8a92ddfae890bce1a50581151d6508414b3d41a3508c233c25da42eae9971adf0f485751ab
   languageName: node
   linkType: hard
 
