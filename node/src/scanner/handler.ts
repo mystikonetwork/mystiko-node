@@ -27,8 +27,8 @@ export class MystikoNodeScanner {
     }
   }
 
-  public reset(options: core.scanner.v1.ResetOptions): core.scanner.v1.ResetResult {
-    const request = new api.scanner.v1.ResetRequest({
+  public reset(options: core.scanner.v1.ScannerResetOptions): core.scanner.v1.ResetResult {
+    const request = new api.scanner.v1.ScannerResetRequest({
       options,
     });
     const response = this.scanner.reset(Buffer.from(request.toBinary()));

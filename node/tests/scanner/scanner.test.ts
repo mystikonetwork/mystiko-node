@@ -27,7 +27,7 @@ test('test scan', () => {
 });
 
 test('test reset', () => {
-  const options = new core.scanner.v1.ResetOptions({
+  const options = new core.scanner.v1.ScannerResetOptions({
     shieldedAddresses: [],
   });
   const response = mystiko.scanner?.reset(options);
