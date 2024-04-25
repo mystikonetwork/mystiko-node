@@ -53,6 +53,7 @@ jobs:
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
             ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
+            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_STATIC_CONFIG }}
       - name: Docker Login
         uses: docker/login-action@v3
         with:
