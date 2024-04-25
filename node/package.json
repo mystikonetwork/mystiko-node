@@ -28,7 +28,7 @@
     "lint": "eslint . --ext .js,.ts"
   },
   "dependencies": {
-    "@mystikonetwork/napi": "0.1.8",
+    "@mystikonetwork/napi": "0.1.9",
     "@mystikonetwork/protos": "0.5.6"
   },
   "devDependencies": {
