@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/node",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "mystiko node package of napi wrapper",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
