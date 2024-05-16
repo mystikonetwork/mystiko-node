@@ -474,11 +474,11 @@
     {
       "name": "zokrates-1.0-rollup1024",
       "type": "rollup1024",
-        "isDefault": true,
-        "programFile": ["./Rollup1024.program.gz"],
-        "abiFile": ["./Rollup1024.abi.json"],
-        "provingKeyFile": ["./Rollup1024.pkey.gz"],
-        "verifyingKeyFile": ["./Rollup1024.vkey.gz"]
+      "isDefault": true,
+      "programFile": ["./Rollup1024.program.gz"],
+      "abiFile": ["./Rollup1024.abi.json"],
+      "provingKeyFile": ["./Rollup1024.pkey.gz"],
+      "verifyingKeyFile": ["./Rollup1024.vkey.gz"]
     },
     {
       "name": "zokrates-1.0-transaction1x0",

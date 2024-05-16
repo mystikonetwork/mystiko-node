@@ -10,8 +10,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "2.16.4", default-features = false, features = ["napi4"] }
-napi-derive = "2.16.4"
+napi = { version = "2.12.2", default-features = false, features = ["napi4"] }
+napi-derive = "2.12.2"
 anyhow = { version = "1.0.69" }
 prost = { version = "0.11.9" }
 typed-builder = { version = "0.15.2" }

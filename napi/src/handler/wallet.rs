@@ -9,36 +9,33 @@ pub struct Wallet;
 impl Wallet {
   #[napi]
   pub fn create(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::wallet::create::<&[u8]>(request.as_ref())
-      .encode_to_vec()
-      .into()
+    let r = mystiko_lib::handler::wallet::create::<&[u8]>(request.as_ref()).encode_to_vec();
+    Buffer::from(r)
   }
 
   #[napi]
   pub fn check_current(&self) -> Buffer {
-    mystiko_lib::handler::wallet::check_current()
-      .encode_to_vec()
-      .into()
+    let r = mystiko_lib::handler::wallet::check_current().encode_to_vec();
+    Buffer::from(r)
   }
 
   #[napi]
   pub fn check_password(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::wallet::check_password::<&[u8]>(request.as_ref())
-      .encode_to_vec()
-      .into()
+    let r = mystiko_lib::handler::wallet::check_password::<&[u8]>(request.as_ref()).encode_to_vec();
+    Buffer::from(r)
   }
 
   #[napi]
   pub fn update_password(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::wallet::update_password::<&[u8]>(request.as_ref())
-      .encode_to_vec()
-      .into()
+    let r =
+      mystiko_lib::handler::wallet::update_password::<&[u8]>(request.as_ref()).encode_to_vec();
+    Buffer::from(r)
   }
 
   #[napi]
   pub fn export_mnemonic_phrase(&self, request: Buffer) -> Buffer {
-    mystiko_lib::handler::wallet::export_mnemonic_phrase::<&[u8]>(request.as_ref())
-      .encode_to_vec()
-      .into()
+    let r = mystiko_lib::handler::wallet::export_mnemonic_phrase::<&[u8]>(request.as_ref())
+      .encode_to_vec();
+    Buffer::from(r)
   }
 }
