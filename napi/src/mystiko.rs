@@ -9,9 +9,8 @@ pub struct Mystiko;
 impl Mystiko {
   #[napi]
   pub fn initialize(&self, request: Buffer) -> Buffer {
-    mystiko_lib::initialize::<&[u8]>(request.as_ref())
-      .encode_to_vec()
-      .into()
+    let r = mystiko_lib::initialize::<&[u8]>(request.as_ref()).encode_to_vec();
+    Buffer::from(r)
   }
 
   #[napi]
