@@ -14,7 +14,7 @@ export class MystikoNodeDeposit {
       options,
     });
     const response = this.deposit.quote(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.QuoteResponse.fromBinary(rsp.result.value);
       if (data.quote) {
@@ -32,7 +32,7 @@ export class MystikoNodeDeposit {
       options,
     });
     const response = this.deposit.summary(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SummaryResponse.fromBinary(rsp.result.value);
       if (data.summary) {
@@ -50,7 +50,7 @@ export class MystikoNodeDeposit {
       options,
     });
     const response = this.deposit.create(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CreateDepositResponse.fromBinary(rsp.result.value);
       if (data.deposit) {
@@ -68,7 +68,7 @@ export class MystikoNodeDeposit {
       options,
     });
     const response = this.deposit.send(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SendResponse.fromBinary(rsp.result.value);
       if (data.deposit) {
@@ -90,7 +90,7 @@ export class MystikoNodeDeposit {
       clientOptions,
     });
     const response = this.deposit.sendWithGrpc(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SendResponse.fromBinary(rsp.result.value);
       if (data.deposit) {
@@ -121,7 +121,7 @@ export class MystikoNodeDeposit {
       filter: queryFilter,
     });
     const response = this.deposit.findOne(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindOneDepositResponse.fromBinary(rsp.result.value);
       if (data.deposit) {
@@ -139,7 +139,7 @@ export class MystikoNodeDeposit {
       id,
     });
     const response = this.deposit.findById(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindOneDepositResponse.fromBinary(rsp.result.value);
       if (data.deposit) {
@@ -165,7 +165,7 @@ export class MystikoNodeDeposit {
       deposit,
     });
     const response = this.deposit.update(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateDepositResponse.fromBinary(rsp.result.value);
       if (data.deposit) {
@@ -183,7 +183,7 @@ export class MystikoNodeDeposit {
       deposits,
     });
     const response = this.deposit.updateBatch(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateDepositBatchResponse.fromBinary(rsp.result.value);
       return data.deposits;
@@ -208,7 +208,7 @@ export class MystikoNodeDeposit {
       deposit,
     });
     const response = this.deposit.delete(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -219,7 +219,7 @@ export class MystikoNodeDeposit {
       deposits,
     });
     const response = this.deposit.deleteBatch(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -231,7 +231,7 @@ export class MystikoNodeDeposit {
       filter: queryFilter,
     });
     const response = this.deposit.deleteByFilter(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -239,7 +239,7 @@ export class MystikoNodeDeposit {
 
   public deleteAll() {
     const response = this.deposit.deleteAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -253,7 +253,7 @@ export class MystikoNodeDeposit {
       filter: queryFilter,
     });
     const response = this.deposit.find(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindDepositResponse.fromBinary(rsp.result.value);
       return data.deposits;
@@ -264,7 +264,7 @@ export class MystikoNodeDeposit {
 
   private findAll(): core.document.v1.Deposit[] {
     const response = this.deposit.findAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindDepositResponse.fromBinary(rsp.result.value);
       return data.deposits;
@@ -281,7 +281,7 @@ export class MystikoNodeDeposit {
       filter: queryFilter,
     });
     const response = this.deposit.count(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CountDepositResponse.fromBinary(rsp.result.value);
       return data.count;
@@ -292,7 +292,7 @@ export class MystikoNodeDeposit {
 
   private countAll(): bigint {
     const response = this.deposit.countAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CountDepositResponse.fromBinary(rsp.result.value);
       return data.count;
@@ -311,7 +311,7 @@ export class MystikoNodeDeposit {
       filter: queryFilter,
     });
     const response = this.deposit.updateByFilter(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -322,7 +322,7 @@ export class MystikoNodeDeposit {
       columnValues,
     });
     const response = this.deposit.updateAll(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }

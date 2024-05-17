@@ -18,7 +18,7 @@ export class MystikoNode {
   public initialize(options: core.v1.MystikoOptions): void {
     const mystiko = new Mystiko();
     const response = mystiko.initialize(Buffer.from(options.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success) {
       this.init();
     } else {

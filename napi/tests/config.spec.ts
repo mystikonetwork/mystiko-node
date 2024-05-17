@@ -26,7 +26,7 @@ test('test get', (t) => {
   InitMystiko();
   const api = new Config();
   const response = api.get();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = GetConfigResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.version, '0.1.0');
@@ -40,7 +40,7 @@ test('test findDefaultCircuit', (t) => {
   });
   const api = new Config();
   const response = api.findDefaultCircuit(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindDefaultCircuitResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'zokrates-1.0-rollup1');
@@ -59,7 +59,7 @@ test('test findCircuit', (t) => {
   });
   const api = new Config();
   const response = api.findCircuit(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindCircuitResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'zokrates-1.0-rollup2');
@@ -78,7 +78,7 @@ test('test findChain', (t) => {
   });
   const api = new Config();
   const response = api.findChain(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindChainResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.chainId, BigInt(5));
@@ -91,7 +91,7 @@ test('test findPeerChains', (t) => {
   });
   const api = new Config();
   const response = api.findPeerChains(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindPeerChainsResponse.fromBinary(rsp.result.value);
   t.is(cfg.configs.length, 2);
@@ -105,7 +105,7 @@ test('test findAssetSymbols', (t) => {
   });
   const api = new Config();
   const response = api.findAssetSymbols(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindAssetSymbolsResponse.fromBinary(rsp.result.value);
   t.is(cfg.assetSymbol.length, 1);
@@ -119,7 +119,7 @@ test('test findBridge', (t) => {
   });
   const api = new Config();
   const response = api.findBridge(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindBridgeResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'Mystiko Testnet Bridge');
@@ -135,7 +135,7 @@ test('test findBridges', (t) => {
   });
   const api = new Config();
   const response = api.findBridges(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindBridgesResponse.fromBinary(rsp.result.value);
   t.is(cfg.bridgeType.length, 4);
@@ -151,7 +151,7 @@ test('test findDepositContract', (t) => {
   });
   const api = new Config();
   const response = api.findDepositContract(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindDepositContractResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'MystikoV2WithTBridgeERC20');
@@ -166,7 +166,7 @@ test('test findDepositContractByAddress', (t) => {
   });
   const api = new Config();
   const response = api.findDepositContractByAddress(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindDepositContractByAddressResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'MystikoV2WithTBridgeERC20');
@@ -183,7 +183,7 @@ test('test findPoolContract', (t) => {
   });
   const api = new Config();
   const response = api.findPoolContract(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindPoolContractResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'CommitmentPool');
@@ -199,7 +199,7 @@ test('test findPoolContracts', (t) => {
   });
   const api = new Config();
   const response = api.findPoolContracts(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindPoolContractsResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.length, 2);
@@ -213,7 +213,7 @@ test('test findPoolContractByAddress', (t) => {
   });
   const api = new Config();
   const response = api.findPoolContractByAddress(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindPoolContractByAddressResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'CommitmentPool');
@@ -228,7 +228,7 @@ test('test findContractByAddress', (t) => {
   });
   const api = new Config();
   const response = api.findContractByAddress(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = FindContractByAddressResponse.fromBinary(rsp.result.value);
   t.is(cfg.config.name, 'CommitmentPool');
@@ -243,7 +243,7 @@ test('test getTransactionUrl', (t) => {
   });
   const api = new Config();
   const response = api.getTransactionUrl(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const cfg = GetTransactionUrlResponse.fromBinary(rsp.result.value);
   t.is(cfg.url, 'https://goerli.etherscan.io/tx/txhash');

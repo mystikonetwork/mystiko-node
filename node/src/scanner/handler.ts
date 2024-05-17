@@ -14,7 +14,7 @@ export class MystikoNodeScanner {
       options,
     });
     const response = this.scanner.scan(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.scanner.v1.ScanResponse.fromBinary(rsp.result.value);
       if (data.result) {
@@ -32,7 +32,7 @@ export class MystikoNodeScanner {
       options,
     });
     const response = this.scanner.reset(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.scanner.v1.ResetResponse.fromBinary(rsp.result.value);
       if (data.result) {
@@ -50,7 +50,7 @@ export class MystikoNodeScanner {
       options,
     });
     const response = this.scanner.balance(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.scanner.v1.BalanceResponse.fromBinary(rsp.result.value);
       if (data.result) {
@@ -68,7 +68,7 @@ export class MystikoNodeScanner {
       options,
     });
     const response = this.scanner.assets(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.scanner.v1.AssetsResponse.fromBinary(rsp.result.value);
       if (data.results) {
@@ -90,7 +90,7 @@ export class MystikoNodeScanner {
       options,
     });
     const response = this.scanner.chainAssets(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.scanner.v1.ChainAssetsResponse.fromBinary(rsp.result.value);
       return data.result;

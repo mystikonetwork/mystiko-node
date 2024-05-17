@@ -13,7 +13,7 @@ const { ApiResponse } = api.v1;
 test('test create', (t) => {
   InitMystiko();
   const response = createWallet();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = CreateWalletResponse.fromBinary(rsp.result.value);
   t.is(data.wallet.accountNonce, 0);
@@ -25,7 +25,7 @@ test('test checkCurrent', (t) => {
   createWallet();
   const wallet = new Wallet();
   const response = wallet.checkCurrent();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = CheckCurrentResponse.fromBinary(rsp.result.value);
   t.is(data.wallet.accountNonce, 0);
@@ -40,7 +40,7 @@ test('test checkPassword', (t) => {
     password: WalletPassword,
   });
   const response = wallet.checkPassword(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = CheckPasswordResponse.fromBinary(rsp.result.value);
   t.is(data.wallet.accountNonce, 0);
@@ -57,7 +57,7 @@ test('test updatePassword', (t) => {
     newPassword: newPassword,
   });
   const response1 = wallet.updatePassword(request1.toBinary());
-  const rsp1 = ApiResponse.fromBinary(response1);
+  const rsp1 = ApiResponse.fromBinary(new Uint8Array(response1));
   t.assert(rsp1.code.success);
   const data1 = UpdatePasswordResponse.fromBinary(rsp1.result.value);
   t.is(data1.wallet.accountNonce, 0);
@@ -66,7 +66,7 @@ test('test updatePassword', (t) => {
     password: newPassword,
   });
   const response2 = wallet.checkPassword(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = CheckPasswordResponse.fromBinary(rsp2.result.value);
   t.is(data2.wallet.accountNonce, 0);
@@ -81,7 +81,7 @@ test('test exportMnemonicPhrase', (t) => {
     password: WalletPassword,
   });
   const response = wallet.exportMnemonicPhrase(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = ExportMnemonicPhraseResponse.fromBinary(rsp.result.value);
   t.is(data.mnemonicPhrase, WalletMnemonicPhrase);
