@@ -14,7 +14,7 @@ export class MystikoNodeWallet {
       options,
     });
     const response = this.wallet.create(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CreateWalletResponse.fromBinary(rsp.result.value);
       if (data.wallet) {
@@ -29,7 +29,7 @@ export class MystikoNodeWallet {
 
   public checkCurrent(): core.document.v1.Wallet {
     const response = this.wallet.checkCurrent();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CheckCurrentResponse.fromBinary(rsp.result.value);
       if (data.wallet) {
@@ -47,7 +47,7 @@ export class MystikoNodeWallet {
       password,
     });
     const response = this.wallet.checkPassword(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CheckPasswordResponse.fromBinary(rsp.result.value);
       if (data.wallet) {
@@ -66,7 +66,7 @@ export class MystikoNodeWallet {
       newPassword,
     });
     const response = this.wallet.updatePassword(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdatePasswordResponse.fromBinary(rsp.result.value);
       if (data.wallet) {
@@ -84,7 +84,7 @@ export class MystikoNodeWallet {
       password,
     });
     const response = this.wallet.exportMnemonicPhrase(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.ExportMnemonicPhraseResponse.fromBinary(rsp.result.value);
       if (data.mnemonicPhrase) {

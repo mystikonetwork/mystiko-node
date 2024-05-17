@@ -11,7 +11,7 @@ export class MystikoNodeConfig {
 
   public get(): config.v1.MystikoConfig {
     const response = this.config.get();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.GetConfigResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -29,7 +29,7 @@ export class MystikoNodeConfig {
       circuitType,
     });
     const response = this.config.findDefaultCircuit(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindDefaultCircuitResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -47,7 +47,7 @@ export class MystikoNodeConfig {
       circuitName,
     });
     const response = this.config.findCircuit(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindCircuitResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -65,7 +65,7 @@ export class MystikoNodeConfig {
       chainId,
     });
     const response = this.config.findChain(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindChainResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -83,7 +83,7 @@ export class MystikoNodeConfig {
       chainId: peerChainId,
     });
     const response = this.config.findPeerChains(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindPeerChainsResponse.fromBinary(rsp.result.value);
       if (data.configs) {
@@ -102,7 +102,7 @@ export class MystikoNodeConfig {
       peerChainId,
     });
     const response = this.config.findAssetSymbols(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindAssetSymbolsResponse.fromBinary(rsp.result.value);
       if (data.assetSymbol) {
@@ -122,7 +122,7 @@ export class MystikoNodeConfig {
       assetSymbol,
     });
     const response = this.config.findBridges(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindBridgesResponse.fromBinary(rsp.result.value);
       if (data.bridgeType) {
@@ -140,7 +140,7 @@ export class MystikoNodeConfig {
       bridgeType,
     });
     const response = this.config.findBridge(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindBridgeResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -166,7 +166,7 @@ export class MystikoNodeConfig {
       bridgeType,
     });
     const response = this.config.findDepositContract(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindDepositContractResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -188,7 +188,7 @@ export class MystikoNodeConfig {
       address,
     });
     const response = this.config.findDepositContractByAddress(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindDepositContractByAddressResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -214,7 +214,7 @@ export class MystikoNodeConfig {
       version,
     });
     const response = this.config.findPoolContract(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindPoolContractResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -238,7 +238,7 @@ export class MystikoNodeConfig {
       bridgeType,
     });
     const response = this.config.findPoolContracts(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindPoolContractsResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -257,7 +257,7 @@ export class MystikoNodeConfig {
       address,
     });
     const response = this.config.findPoolContractByAddress(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindPoolContractByAddressResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -276,7 +276,7 @@ export class MystikoNodeConfig {
       address,
     });
     const response = this.config.findContractByAddress(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.FindContractByAddressResponse.fromBinary(rsp.result.value);
       if (data.config) {
@@ -295,7 +295,7 @@ export class MystikoNodeConfig {
       txHash,
     });
     const response = this.config.getTransactionUrl(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.config.v1.GetTransactionUrlResponse.fromBinary(rsp.result.value);
       if (data.url) {

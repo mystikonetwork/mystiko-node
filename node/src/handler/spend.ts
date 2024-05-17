@@ -14,7 +14,7 @@ export class MystikoNodeSpend {
       options,
     });
     const response = this.spend.quote(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SpendQuoteResponse.fromBinary(rsp.result.value);
       if (data.quote) {
@@ -32,7 +32,7 @@ export class MystikoNodeSpend {
       options,
     });
     const response = this.spend.summary(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SpendSummaryResponse.fromBinary(rsp.result.value);
       if (data.summary) {
@@ -50,7 +50,7 @@ export class MystikoNodeSpend {
       options,
     });
     const response = this.spend.create(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CreateSpendResponse.fromBinary(rsp.result.value);
       if (data.spend) {
@@ -68,7 +68,7 @@ export class MystikoNodeSpend {
       options,
     });
     const response = this.spend.send(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SendSpendResponse.fromBinary(rsp.result.value);
       if (data.spend) {
@@ -90,7 +90,7 @@ export class MystikoNodeSpend {
       clientOptions,
     });
     const response = this.spend.sendWithGrpc(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.SendSpendResponse.fromBinary(rsp.result.value);
       if (data.spend) {
@@ -121,7 +121,7 @@ export class MystikoNodeSpend {
       filter: queryFilter,
     });
     const response = this.spend.findOne(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindOneSpendResponse.fromBinary(rsp.result.value);
       if (data.spend) {
@@ -139,7 +139,7 @@ export class MystikoNodeSpend {
       id,
     });
     const response = this.spend.findById(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindOneSpendResponse.fromBinary(rsp.result.value);
       if (data.spend) {
@@ -165,7 +165,7 @@ export class MystikoNodeSpend {
       spend,
     });
     const response = this.spend.update(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateSpendResponse.fromBinary(rsp.result.value);
       if (data.spend) {
@@ -183,7 +183,7 @@ export class MystikoNodeSpend {
       spends,
     });
     const response = this.spend.updateBatch(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateSpendBatchResponse.fromBinary(rsp.result.value);
       return data.spends;
@@ -208,7 +208,7 @@ export class MystikoNodeSpend {
       spend,
     });
     const response = this.spend.delete(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -219,7 +219,7 @@ export class MystikoNodeSpend {
       spends,
     });
     const response = this.spend.deleteBatch(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -231,7 +231,7 @@ export class MystikoNodeSpend {
       filter: queryFilter,
     });
     const response = this.spend.deleteByFilter(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -239,7 +239,7 @@ export class MystikoNodeSpend {
 
   public deleteAll() {
     const response = this.spend.deleteAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -253,7 +253,7 @@ export class MystikoNodeSpend {
       filter: queryFilter,
     });
     const response = this.spend.find(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindSpendsResponse.fromBinary(rsp.result.value);
       return data.spends;
@@ -264,7 +264,7 @@ export class MystikoNodeSpend {
 
   private findAll(): core.document.v1.Spend[] {
     const response = this.spend.findAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindSpendsResponse.fromBinary(rsp.result.value);
       return data.spends;
@@ -281,7 +281,7 @@ export class MystikoNodeSpend {
       filter: queryFilter,
     });
     const response = this.spend.count(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CountSpendsResponse.fromBinary(rsp.result.value);
       return data.count;
@@ -292,7 +292,7 @@ export class MystikoNodeSpend {
 
   private countAll(): bigint {
     const response = this.spend.countAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CountSpendsResponse.fromBinary(rsp.result.value);
       return data.count;
@@ -311,7 +311,7 @@ export class MystikoNodeSpend {
       filter: queryFilter,
     });
     const response = this.spend.updateByFilter(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }
@@ -322,7 +322,7 @@ export class MystikoNodeSpend {
       columnValues,
     });
     const response = this.spend.updateAll(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }

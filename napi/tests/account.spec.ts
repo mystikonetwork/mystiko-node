@@ -18,7 +18,7 @@ test('test create', (t) => {
   InitMystiko();
   createWallet();
   const response = createAccount();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = CreateAccountResponse.fromBinary(rsp.result.value);
   t.is(data.account.name, 'test_account');
@@ -38,7 +38,7 @@ test('test count', (t) => {
     }),
   });
   const response = account.count(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = CountAccountResponse.fromBinary(rsp.result.value);
   t.is(data.count, BigInt(1));
@@ -52,7 +52,7 @@ test('test count all', (t) => {
 
   const account = new Account();
   const response = account.countAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = CountAccountResponse.fromBinary(rsp.result.value);
   t.is(data.count, BigInt(1));
@@ -72,7 +72,7 @@ test('test find', (t) => {
     }),
   });
   const response = account.find(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
   t.is(data.account.length, 1);
@@ -87,7 +87,7 @@ test('test findAll', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
   t.is(data.account[0].name, 'test_account');
@@ -101,7 +101,7 @@ test('test findById', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -109,7 +109,7 @@ test('test findById', (t) => {
     identifier: data.account[0].id,
   });
   const response2 = account.findById(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = FindAccountByIdentifierResponse.fromBinary(rsp2.result.value);
   t.is(data2.account.name, 'test_account');
@@ -123,7 +123,7 @@ test('test findByPublicKey', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -131,7 +131,7 @@ test('test findByPublicKey', (t) => {
     identifier: data.account[0].publicKey,
   });
   const response2 = account.findByPublicKey(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = FindAccountByIdentifierResponse.fromBinary(rsp2.result.value);
   t.is(data2.account.name, 'test_account');
@@ -145,7 +145,7 @@ test('test findByShieldedAddress', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -153,7 +153,7 @@ test('test findByShieldedAddress', (t) => {
     identifier: data.account[0].shieldedAddress,
   });
   const response2 = account.findByShieldedAddress(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = FindAccountByIdentifierResponse.fromBinary(rsp2.result.value);
   t.is(data2.account.name, 'test_account');
@@ -167,7 +167,7 @@ test('test updateById', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -179,7 +179,7 @@ test('test updateById', (t) => {
     }),
   });
   const response2 = account.updateById(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = UpdateAccountResponse.fromBinary(rsp2.result.value);
   t.is(data2.account.name, 'new account by update');
@@ -193,7 +193,7 @@ test('test updateByPublicKey', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -205,7 +205,7 @@ test('test updateByPublicKey', (t) => {
     }),
   });
   const response2 = account.updateByPublicKey(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = UpdateAccountResponse.fromBinary(rsp2.result.value);
   t.is(data2.account.name, 'new account by update');
@@ -219,7 +219,7 @@ test('test updateByShieldedAddress', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -231,7 +231,7 @@ test('test updateByShieldedAddress', (t) => {
     }),
   });
   const response2 = account.updateByShieldedAddress(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = UpdateAccountResponse.fromBinary(rsp2.result.value);
   t.is(data2.account.name, 'new account by update');
@@ -249,7 +249,7 @@ test('test updateEncryption', (t) => {
     newWalletPassword: '123@ABC',
   });
   const response = account.updateEncryption(request.toBinary());
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(!rsp.code.success);
   t.pass();
 });
@@ -261,7 +261,7 @@ test('test exportSecretKeyById', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -270,7 +270,7 @@ test('test exportSecretKeyById', (t) => {
     walletPassword: WalletPassword,
   });
   const response2 = account.exportSecretKeyById(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = ExportSecretKeyResponse.fromBinary(rsp2.result.value);
   t.assert(data2.secretKey.length > 10);
@@ -284,7 +284,7 @@ test('test exportSecretKeyByPublicKey', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -293,7 +293,7 @@ test('test exportSecretKeyByPublicKey', (t) => {
     walletPassword: WalletPassword,
   });
   const response2 = account.exportSecretKeyByPublicKey(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = ExportSecretKeyResponse.fromBinary(rsp2.result.value);
   t.assert(data2.secretKey.length > 10);
@@ -307,7 +307,7 @@ test('test exportSecretKeyByShieldedAddress', (t) => {
 
   const account = new Account();
   const response = account.findAll();
-  const rsp = ApiResponse.fromBinary(response);
+  const rsp = ApiResponse.fromBinary(new Uint8Array(response));
   t.assert(rsp.code.success);
   const data = FindAccountResponse.fromBinary(rsp.result.value);
 
@@ -316,7 +316,7 @@ test('test exportSecretKeyByShieldedAddress', (t) => {
     walletPassword: WalletPassword,
   });
   const response2 = account.exportSecretKeyByShieldedAddress(request2.toBinary());
-  const rsp2 = ApiResponse.fromBinary(response2);
+  const rsp2 = ApiResponse.fromBinary(new Uint8Array(response2));
   t.assert(rsp2.code.success);
   const data2 = ExportSecretKeyResponse.fromBinary(rsp2.result.value);
   t.assert(data2.secretKey.length > 10);

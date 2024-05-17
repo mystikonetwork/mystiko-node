@@ -14,7 +14,7 @@ export class MystikoNodeAccount {
       options,
     });
     const response = this.account.create(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CreateAccountResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -51,7 +51,7 @@ export class MystikoNodeAccount {
     });
 
     const response = this.account.findById(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindAccountByIdentifierResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -70,7 +70,7 @@ export class MystikoNodeAccount {
     });
 
     const response = this.account.findByPublicKey(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindAccountByIdentifierResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -89,7 +89,7 @@ export class MystikoNodeAccount {
     });
 
     const response = this.account.findByShieldedAddress(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindAccountByIdentifierResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -111,7 +111,7 @@ export class MystikoNodeAccount {
       identifier,
     });
     const response = this.account.updateById(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateAccountResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -133,7 +133,7 @@ export class MystikoNodeAccount {
       identifier: publicKey,
     });
     const response = this.account.updateByPublicKey(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateAccountResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -155,7 +155,7 @@ export class MystikoNodeAccount {
       identifier: shieldedAddress,
     });
     const response = this.account.updateByShieldedAddress(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateAccountResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -174,7 +174,7 @@ export class MystikoNodeAccount {
       newWalletPassword,
     });
     const response = this.account.updateEncryption(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.UpdateEncryptionResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -193,7 +193,7 @@ export class MystikoNodeAccount {
       identifier,
     });
     const response = this.account.exportSecretKeyById(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.ExportSecretKeyResponse.fromBinary(rsp.result.value);
       if (data.secretKey) {
@@ -212,7 +212,7 @@ export class MystikoNodeAccount {
       identifier: publicKey,
     });
     const response = this.account.exportSecretKeyByPublicKey(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.ExportSecretKeyResponse.fromBinary(rsp.result.value);
       if (data.secretKey) {
@@ -231,7 +231,7 @@ export class MystikoNodeAccount {
       identifier: shieldedAddress,
     });
     const response = this.account.exportSecretKeyByShieldedAddress(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.ExportSecretKeyResponse.fromBinary(rsp.result.value);
       if (data.secretKey) {
@@ -252,7 +252,7 @@ export class MystikoNodeAccount {
       filter: queryFilter,
     });
     const response = this.account.count(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CountAccountResponse.fromBinary(rsp.result.value);
       return data.count;
@@ -263,7 +263,7 @@ export class MystikoNodeAccount {
 
   private countAll(): bigint {
     const response = this.account.countAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.CountAccountResponse.fromBinary(rsp.result.value);
       return data.count;
@@ -280,7 +280,7 @@ export class MystikoNodeAccount {
       filter: queryFilter,
     });
     const response = this.account.find(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindAccountResponse.fromBinary(rsp.result.value);
       if (data.account) {
@@ -295,7 +295,7 @@ export class MystikoNodeAccount {
 
   private findAll(): core.document.v1.Account[] {
     const response = this.account.findAll();
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.handler.v1.FindAccountResponse.fromBinary(rsp.result.value);
       if (data.account) {

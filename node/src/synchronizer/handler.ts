@@ -14,7 +14,7 @@ export class MystikoNodeSynchronizer {
       chainId,
     });
     const response = this.synchronizer.chainSyncedBlock(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.synchronizer.v1.ChainSyncedBlockResponse.fromBinary(rsp.result.value);
       if (data.result) {
@@ -33,7 +33,7 @@ export class MystikoNodeSynchronizer {
       contractAddress,
     });
     const response = this.synchronizer.contractSyncedBlock(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.synchronizer.v1.ContractSyncedBlockResponse.fromBinary(rsp.result.value);
       if (data.result) {
@@ -51,7 +51,7 @@ export class MystikoNodeSynchronizer {
       withContracts,
     });
     const response = this.synchronizer.status(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.synchronizer.v1.StatusResponse.fromBinary(rsp.result.value);
       if (data.status) {
@@ -69,7 +69,7 @@ export class MystikoNodeSynchronizer {
       options,
     });
     const response = this.synchronizer.sync(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.synchronizer.v1.StatusResponse.fromBinary(rsp.result.value);
       if (data.status) {
@@ -87,7 +87,7 @@ export class MystikoNodeSynchronizer {
       options,
     });
     const response = this.synchronizer.reset(Buffer.from(request.toBinary()));
-    const rsp = api.v1.ApiResponse.fromBinary(response);
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (!rsp.code?.success) {
       throw buildErrorResponse(rsp);
     }

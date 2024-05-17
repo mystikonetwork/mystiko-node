@@ -873,7 +873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mystikonetwork/napi@npm:0.2.1, @mystikonetwork/napi@workspace:napi":
+"@mystikonetwork/napi@npm:0.2.2, @mystikonetwork/napi@workspace:napi":
   version: 0.0.0-use.local
   resolution: "@mystikonetwork/napi@workspace:napi"
   dependencies:
@@ -911,7 +911,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mystikonetwork/node@workspace:node"
   dependencies:
-    "@mystikonetwork/napi": "npm:0.2.1"
+    "@mystikonetwork/napi": "npm:0.2.2"
     "@mystikonetwork/protos": "npm:0.5.6"
     "@tsconfig/recommended": "npm:^1.0.1"
     "@types/jest": "npm:^27.4.0"
