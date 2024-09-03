@@ -19,11 +19,11 @@ typed-builder = { version = "0.15.2" }
 mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-static-config.git", rev = "2b27cc4", features = [
   "fs",
 ] }
-mystiko_relayer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c", features = [
+mystiko_relayer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "f34965f", features = [
   "fs",
 ] }
-mystiko_lib = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c" }
-mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c", default-features = false, features = [
+mystiko_lib = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "f34965f" }
+mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "f34965f", default-features = false, features = [
   "mystiko-api-config-v1",
   "mystiko-api-handler-v1",
 ] }
