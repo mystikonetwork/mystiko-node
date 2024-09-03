@@ -93,6 +93,5 @@
     "environmentVariables": {
       "TS_NODE_PROJECT": "./tsconfig.json"
     }
-  },
-  "packageManager": "yarn@4.0.2"
+  }
 }
