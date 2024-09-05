@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@mystikonetwork/napi": "0.2.3",
-    "@mystikonetwork/protos": "0.5.6"
+    "@mystikonetwork/protos": "0.5.8"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
@@ -49,5 +49,6 @@
     "prettier": "^3.0.3",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
-  }
+  },
+  "packageManager": "yarn@4.0.2"
 }
