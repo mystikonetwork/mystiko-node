@@ -45,6 +45,24 @@ export class MystikoNodeScanner {
     }
   }
 
+  public import(options: core.scanner.v1.AssetImportOptions): core.scanner.v1.AssetImportResult {
+    const request = new api.scanner.v1.AssetImportRequest({
+      options,
+    });
+    const response = this.scanner.reset(Buffer.from(request.toBinary()));
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.scanner.v1.AssetImportResponse.fromBinary(rsp.result.value);
+      if (data.result) {
+        return data.result;
+      } else {
+        throw buildEmptyDataResponse();
+      }
+    } else {
+      throw buildErrorResponse(rsp);
+    }
+  }
+
   public balance(options: core.scanner.v1.BalanceOptions): core.scanner.v1.BalanceResult {
     const request = new api.scanner.v1.BalanceRequest({
       options,
