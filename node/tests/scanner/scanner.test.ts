@@ -34,6 +34,15 @@ test('test reset', () => {
   expect(response).toBeDefined();
 });
 
+test('test import', () => {
+  const options = new core.scanner.v1.AssetImportOptions({
+    walletPassword: 'password',
+    chains: [],
+  });
+  const response = mystiko.scanner?.import(options);
+  expect(response).toBeDefined();
+});
+
 test('test balance', () => {
   const options = new core.scanner.v1.BalanceOptions({
     shieldedAddresses: [],

@@ -77,6 +77,7 @@ export class Scanner {
   constructor()
   scan(request: Buffer): Array<number>
   reset(request: Buffer): Array<number>
+  import(request: Buffer): Array<number>
   balance(request: Buffer): Array<number>
   assets(request: Buffer): Array<number>
   chainAssets(request: Buffer): Array<number>
