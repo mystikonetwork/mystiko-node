@@ -75,6 +75,7 @@ export class Mystiko {
 export class Scanner {
 
   constructor()
+  sync(request: Buffer): Array<number>
   scan(request: Buffer): Array<number>
   reset(request: Buffer): Array<number>
   import(request: Buffer): Array<number>
