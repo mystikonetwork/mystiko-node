@@ -48,6 +48,10 @@ jobs:
         with:
           node-version: 18
           cache: yarn
+      - name: Setup Registry
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
       - name: Install dependencies
         run: yarn install
       - name: Lint all
