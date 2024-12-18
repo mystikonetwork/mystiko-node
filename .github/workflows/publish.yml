@@ -75,6 +75,10 @@ jobs:
         with:
           node-version: 18
           cache: yarn
+      - name: Setup Registry
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
       - name: Install dependencies
         run: yarn install
         working-directory: ${{ env.WORK_NAPI_PATH }}
@@ -112,6 +116,10 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
+      - name: Setup Registry
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
       - name: Install dependencies
         run: yarn install
         working-directory: ${{ env.WORK_NAPI_PATH }}
@@ -144,6 +152,10 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
+      - name: Setup Registry
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
       - name: Install dependencies
         run: yarn install
         working-directory: ${{ env.WORK_NAPI_PATH }}
@@ -180,6 +192,10 @@ jobs:
         run: corepack enable
       - name: Copy env
         run: echo "" >> .env
+      - name: Setup Registry
+        run: |
+          echo "@mystikonetwork:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGES_TOKEN }}" >> $HOME/.npmrc
       - name: Install dependencies
         run: |
           yarn config set supportedArchitectures.cpu "arm64"
