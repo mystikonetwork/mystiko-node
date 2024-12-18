@@ -8,6 +8,22 @@ beforeAll(() => {
   createAccount();
 });
 
+test('test sync', () => {
+  const options = new core.scanner.v1.SyncOptions({
+    walletPassword: WalletPassword,
+    concurrency: 1,
+  });
+  const response = mystiko.scanner?.sync(options);
+  expect(response?.balances.length).toBe(0);
+
+  expect(() => {
+    const options2 = new core.scanner.v1.SyncOptions({
+      walletPassword: 'wrong pass word',
+    });
+    mystiko.scanner?.sync(options2);
+  }).toThrow();
+});
+
 test('test scan', () => {
   const options = new core.scanner.v1.ScanOptions({
     walletPassword: WalletPassword,

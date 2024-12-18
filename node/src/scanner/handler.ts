@@ -9,11 +9,29 @@ export class MystikoNodeScanner {
     this.scanner = new Scanner();
   }
 
-  public scan(options: core.scanner.v1.ScanOptions): core.scanner.v1.ScanResult {
+  public sync(options: core.scanner.v1.SyncOptions): core.scanner.v1.BalanceResult {
     const request = new api.scanner.v1.ScanRequest({
       options,
     });
-    const response = this.scanner.scan(Buffer.from(request.toBinary()));
+    const response = this.scanner.sync(Buffer.from(request.toBinary()));
+    const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
+    if (rsp.code?.success && rsp.result.case === 'data') {
+      const data = api.scanner.v1.BalanceResponse.fromBinary(rsp.result.value);
+      if (data.result) {
+        return data.result;
+      } else {
+        throw buildEmptyDataResponse();
+      }
+    } else {
+      throw buildErrorResponse(rsp);
+    }
+  }
+
+  public scan(options: core.scanner.v1.ScanOptions): core.scanner.v1.ScanResult {
+    const request = new api.scanner.v1.SyncRequest({
+      options,
+    });
+    const response = this.scanner.sync(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
       const data = api.scanner.v1.ScanResponse.fromBinary(rsp.result.value);

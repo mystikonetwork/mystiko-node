@@ -8,6 +8,11 @@ pub struct Scanner;
 #[napi]
 impl Scanner {
   #[napi]
+  pub fn sync(&self, request: Buffer) -> Vec<u8> {
+    mystiko_lib::scanner::sync::<&[u8]>(request.as_ref()).encode_to_vec()
+  }
+
+  #[napi]
   pub fn scan(&self, request: Buffer) -> Vec<u8> {
     mystiko_lib::scanner::scan::<&[u8]>(request.as_ref()).encode_to_vec()
   }
