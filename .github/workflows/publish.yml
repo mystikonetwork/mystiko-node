@@ -169,7 +169,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/build \
             -w /build/${{ env.WORK_NAPI_PATH }} \
-            node:${{ matrix.node }}-slim \
+            node@sha256:2b1ad9885faa6627319d47b139708938d84e61f9fa218bd69649b59e06fc70f9 \
             /bin/bash -c "yarn test"
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
@@ -210,7 +210,7 @@ jobs:
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: node:${{ matrix.node }}-slim
+          image: node@sha256:2b1ad9885faa6627319d47b139708938d84e61f9fa218bd69649b59e06fc70f9
           options: '--platform linux/arm64 -v ${{ github.workspace }}:/build  -w /build/${{ env.WORK_NAPI_PATH }}'
           run: |
             set -e
