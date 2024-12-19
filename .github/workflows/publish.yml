@@ -67,7 +67,9 @@ jobs:
       - name: Install cross
         run: cargo install cross --git https://github.com/cross-rs/cross
       - name: Enable Corepack
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.2 --activate
       - name: Copy env
         run: echo "" >> .env
       - name: Setup node
@@ -108,7 +110,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Enable Corepack
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.2 --activate
       - name: Copy env
         run: echo "" >> .env
       - name: Setup node
@@ -144,7 +148,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Enable Corepack
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.2 --activate
       - name: Copy env
         run: echo "" >> .env
       - name: Setup node
@@ -189,7 +195,9 @@ jobs:
           name: bindings-aarch64-unknown-linux-gnu
           path: ${{ env.WORK_NAPI_PATH }}
       - name: Enable Corepack
-        run: corepack enable
+        run: |
+          corepack enable
+          corepack prepare yarn@4.0.2 --activate
       - name: Copy env
         run: echo "" >> .env
       - name: Setup Registry
