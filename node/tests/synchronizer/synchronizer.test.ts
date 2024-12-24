@@ -36,7 +36,7 @@ test('test status', () => {
 });
 
 test('test sync', () => {
-  const options = new core.synchronizer.v1.SyncOptions({
+  const options = new core.synchronizer.v1.SynchronizerSyncOptions({
     chainIds: [BigInt(1)],
   });
   expect(() => {
