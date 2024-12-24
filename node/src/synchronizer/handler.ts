@@ -47,13 +47,13 @@ export class MystikoNodeSynchronizer {
   }
 
   public status(withContracts: boolean): core.synchronizer.v1.SynchronizerStatus {
-    const request = new api.synchronizer.v1.StatusRequest({
+    const request = new api.synchronizer.v1.SynchronizerStatusRequest({
       withContracts,
     });
     const response = this.synchronizer.status(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
-      const data = api.synchronizer.v1.StatusResponse.fromBinary(rsp.result.value);
+      const data = api.synchronizer.v1.SynchronizerStatusResponse.fromBinary(rsp.result.value);
       if (data.status) {
         return data.status;
       } else {
@@ -64,14 +64,16 @@ export class MystikoNodeSynchronizer {
     }
   }
 
-  public sync(options: core.synchronizer.v1.SyncOptions): core.synchronizer.v1.SynchronizerStatus {
-    const request = new api.synchronizer.v1.SyncRequest({
+  public sync(
+    options: core.synchronizer.v1.SynchronizerSyncOptions,
+  ): core.synchronizer.v1.SynchronizerStatus {
+    const request = new api.synchronizer.v1.SynchronizerSyncRequest({
       options,
     });
     const response = this.synchronizer.sync(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
-      const data = api.synchronizer.v1.StatusResponse.fromBinary(rsp.result.value);
+      const data = api.synchronizer.v1.SynchronizerStatusResponse.fromBinary(rsp.result.value);
       if (data.status) {
         return data.status;
       } else {

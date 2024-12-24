@@ -9,8 +9,8 @@ export class MystikoNodeScanner {
     this.scanner = new Scanner();
   }
 
-  public sync(options: core.scanner.v1.SyncOptions): core.scanner.v1.BalanceResult {
-    const request = new api.scanner.v1.ScanRequest({
+  public sync(options: core.scanner.v1.ScannerSyncOptions): core.scanner.v1.BalanceResult {
+    const request = new api.scanner.v1.ScannerScanRequest({
       options,
     });
     const response = this.scanner.sync(Buffer.from(request.toBinary()));
@@ -27,14 +27,14 @@ export class MystikoNodeScanner {
     }
   }
 
-  public scan(options: core.scanner.v1.ScanOptions): core.scanner.v1.ScanResult {
-    const request = new api.scanner.v1.SyncRequest({
+  public scan(options: core.scanner.v1.ScannerScanOptions): core.scanner.v1.ScannerScanResult {
+    const request = new api.scanner.v1.ScannerSyncRequest({
       options,
     });
     const response = this.scanner.sync(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
-      const data = api.scanner.v1.ScanResponse.fromBinary(rsp.result.value);
+      const data = api.scanner.v1.ScannerScanResponse.fromBinary(rsp.result.value);
       if (data.result) {
         return data.result;
       } else {
@@ -45,14 +45,14 @@ export class MystikoNodeScanner {
     }
   }
 
-  public reset(options: core.scanner.v1.ScannerResetOptions): core.scanner.v1.ResetResult {
+  public reset(options: core.scanner.v1.ScannerResetOptions): core.scanner.v1.ScannerResetResult {
     const request = new api.scanner.v1.ScannerResetRequest({
       options,
     });
     const response = this.scanner.reset(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
-      const data = api.scanner.v1.ResetResponse.fromBinary(rsp.result.value);
+      const data = api.scanner.v1.ScannerResetResponse.fromBinary(rsp.result.value);
       if (data.result) {
         return data.result;
       } else {
@@ -64,13 +64,13 @@ export class MystikoNodeScanner {
   }
 
   public import(options: core.scanner.v1.AssetImportOptions): core.scanner.v1.AssetImportResult {
-    const request = new api.scanner.v1.AssetImportRequest({
+    const request = new api.scanner.v1.ScannerAssetImportRequest({
       options,
     });
     const response = this.scanner.reset(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
-      const data = api.scanner.v1.AssetImportResponse.fromBinary(rsp.result.value);
+      const data = api.scanner.v1.ScannerAssetImportResponse.fromBinary(rsp.result.value);
       if (data.result) {
         return data.result;
       } else {

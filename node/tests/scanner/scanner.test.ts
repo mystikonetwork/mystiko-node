@@ -9,7 +9,7 @@ beforeAll(() => {
 });
 
 test('test sync', () => {
-  const options = new core.scanner.v1.SyncOptions({
+  const options = new core.scanner.v1.ScannerSyncOptions({
     walletPassword: WalletPassword,
     concurrency: 1,
   });
@@ -17,7 +17,7 @@ test('test sync', () => {
   expect(response?.balances.length).toBe(0);
 
   expect(() => {
-    const options2 = new core.scanner.v1.SyncOptions({
+    const options2 = new core.scanner.v1.ScannerSyncOptions({
       walletPassword: 'wrong pass word',
     });
     mystiko.scanner?.sync(options2);
@@ -25,7 +25,7 @@ test('test sync', () => {
 });
 
 test('test scan', () => {
-  const options = new core.scanner.v1.ScanOptions({
+  const options = new core.scanner.v1.ScannerScanOptions({
     walletPassword: WalletPassword,
     shieldedAddresses: [],
   });
@@ -34,7 +34,7 @@ test('test scan', () => {
   expect(response?.ownedCount).toBe(BigInt(0));
 
   expect(() => {
-    const options2 = new core.scanner.v1.ScanOptions({
+    const options2 = new core.scanner.v1.ScannerScanOptions({
       walletPassword: 'wrong pass word',
       shieldedAddresses: [],
     });
