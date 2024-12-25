@@ -52,7 +52,7 @@ test('test reset', () => {
 
 test('test import', () => {
   const options = new core.scanner.v1.AssetImportOptions({
-    walletPassword: 'password',
+    walletPassword: WalletPassword,
     chains: [],
   });
   const response = mystiko.scanner?.import(options);
