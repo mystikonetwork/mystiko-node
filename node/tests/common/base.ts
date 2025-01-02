@@ -26,7 +26,10 @@ export function destroyMystiko() {
 export function createWallet(): core.document.v1.Wallet | undefined {
   const options = new core.handler.v1.CreateWalletOptions({
     password: WalletPassword,
-    mnemonicPhrase: WalletMnemonicPhrase,
+    mnemonic: {
+      mnemonicPhrase: WalletMnemonicPhrase,
+      mnemonicType: core.v1.MnemonicType.RUST,
+    },
   });
   return mystiko.wallet?.create(options);
 }

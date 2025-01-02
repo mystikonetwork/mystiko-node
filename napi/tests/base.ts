@@ -33,7 +33,10 @@ export function createWallet(): Buffer {
   const request = new CreateWalletRequest({
     options: new CreateWalletOptions({
       password: WalletPassword,
-      mnemonicPhrase: WalletMnemonicPhrase,
+      mnemonic: {
+        mnemonicType: core.v1.MnemonicType.RUST,
+        mnemonicPhrase: WalletMnemonicPhrase,
+      },
     }),
   });
   const wallet = new Wallet();
