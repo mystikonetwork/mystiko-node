@@ -10,6 +10,7 @@ export class MystikoNodeScanner {
   }
 
   public sync(options: core.scanner.v1.ScannerSyncOptions): core.scanner.v1.BalanceResult {
+    options.concurrency = 1;
     const request = new api.scanner.v1.ScannerScanRequest({
       options,
     });
@@ -28,6 +29,7 @@ export class MystikoNodeScanner {
   }
 
   public scan(options: core.scanner.v1.ScannerScanOptions): core.scanner.v1.ScannerScanResult {
+    options.concurrency = 1;
     const request = new api.scanner.v1.ScannerSyncRequest({
       options,
     });

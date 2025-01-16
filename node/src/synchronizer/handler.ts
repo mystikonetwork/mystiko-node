@@ -67,6 +67,7 @@ export class MystikoNodeSynchronizer {
   public sync(
     options: core.synchronizer.v1.SynchronizerSyncOptions,
   ): core.synchronizer.v1.SynchronizerStatus {
+    options.validatorValidateConcurrency = BigInt(1);
     const request = new api.synchronizer.v1.SynchronizerSyncRequest({
       options,
     });

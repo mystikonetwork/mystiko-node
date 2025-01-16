@@ -1,6 +1,6 @@
 {
   "name": "@mystikonetwork/node",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "mystiko node package of napi wrapper",
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
@@ -28,7 +28,7 @@
     "lint": "eslint . --ext .js,.ts"
   },
   "dependencies": {
-    "@mystikonetwork/napi": "0.2.9",
+    "@mystikonetwork/napi": "0.3.0",
     "@mystikonetwork/protos": "0.5.14"
   },
   "devDependencies": {
