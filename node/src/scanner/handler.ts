@@ -9,7 +9,7 @@ export class MystikoNodeScanner {
     this.scanner = new Scanner();
   }
 
-  public sync(options: core.scanner.v1.ScannerSyncOptions): core.scanner.v1.BalanceResult {
+  public sync(options: core.scanner.v1.ScannerSyncOptions): core.scanner.v1.ScannerSyncResult {
     options.concurrency = 1;
     const request = new api.scanner.v1.ScannerScanRequest({
       options,
@@ -17,7 +17,7 @@ export class MystikoNodeScanner {
     const response = this.scanner.sync(Buffer.from(request.toBinary()));
     const rsp = api.v1.ApiResponse.fromBinary(new Uint8Array(response));
     if (rsp.code?.success && rsp.result.case === 'data') {
-      const data = api.scanner.v1.BalanceResponse.fromBinary(rsp.result.value);
+      const data = api.scanner.v1.ScannerSyncResponse.fromBinary(rsp.result.value);
       if (data.result) {
         return data.result;
       } else {
