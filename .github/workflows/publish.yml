@@ -88,7 +88,7 @@ jobs:
         run: yarn build --target ${{ matrix.targets }}
         working-directory: ${{ env.WORK_NAPI_PATH }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.targets }}
           path: ${{ env.WORK_NAPI_PATH }}/${{ env.APP_NAME }}.*.node
