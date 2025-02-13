@@ -14,7 +14,7 @@ test('test sync', () => {
     concurrency: 1,
   });
   const response = mystiko.scanner?.sync(options);
-  expect(response?.balances.length).toBe(0);
+  expect(response?.results.length).toBe(1);
 
   expect(() => {
     const options2 = new core.scanner.v1.ScannerSyncOptions({
