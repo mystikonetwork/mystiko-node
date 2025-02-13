@@ -128,7 +128,7 @@ jobs:
         run: yarn install
         working-directory: ${{ env.WORK_NAPI_PATH }}
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.WORK_NAPI_PATH }}
@@ -166,7 +166,7 @@ jobs:
         run: yarn install
         working-directory: ${{ env.WORK_NAPI_PATH }}
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bindings-x86_64-unknown-linux-gnu
           path: ${{ env.WORK_NAPI_PATH }}
@@ -190,7 +190,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bindings-aarch64-unknown-linux-gnu
           path: ${{ env.WORK_NAPI_PATH }}
@@ -251,7 +251,7 @@ jobs:
           npm i -g @napi-rs/cli@2.17.0
         working-directory: ${{ env.WORK_NAPI_PATH }}
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ${{ env.WORK_NAPI_PATH }}/artifacts
       - name: Move artifacts
